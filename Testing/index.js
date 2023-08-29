@@ -21,24 +21,25 @@ const fileOps = async () => {
       "utf8"
     );
     console.log(data);
-    // delete file
-    await fsPromises.unlink(path.join(__dirname, "files", "starter.txt"));
     // write file
     await fsPromises.writeFile(
       path.join(__dirname, "files", "promiseWrite.txt"),
       data
     );
-    // append file
+    // unlink file "delete"
+    await fsPromises.unlink(path.join(__dirname, "files", "starter.txt"));
+    // append file w/ new file
+    // append file change exisiting file
     await fsPromises.appendFile(
       path.join(__dirname, "files", "promiseWrite.txt"),
-      "\n\nNice to meet you."
+      "\n\nI say wah you say wah WAH!"
     );
     // rename file
     await fsPromises.rename(
       path.join(__dirname, "files", "promiseWrite.txt"),
       path.join(__dirname, "files", "promiseComplete.txt")
     );
-    // read new file name
+
     const newData = await fsPromises.readFile(
       path.join(__dirname, "files", "promiseComplete.txt"),
       "utf8"
