@@ -9,37 +9,33 @@
  * 6. appendFile() change existing file
  * 7. rename()
  */
-
 const fsPromises = require("fs").promises;
 const path = require("path");
 
 const fileOps = async () => {
   try {
-    // read file
+    // readFile
     const data = await fsPromises.readFile(
       path.join(__dirname, "files", "starter.txt"),
       "utf8"
     );
     console.log(data);
-    // write file
+    // writeFile
     await fsPromises.writeFile(
       path.join(__dirname, "files", "promiseWrite.txt"),
       data
     );
-    // unlink file "delete"
-    await fsPromises.unlink(path.join(__dirname, "files", "starter.txt"));
-    // append file w/ new file
-    // append file change exisiting file
+    // appendFile
     await fsPromises.appendFile(
       path.join(__dirname, "files", "promiseWrite.txt"),
-      "\n\nI say wah you say wah WAH!"
+      "\n\nWah wah wah"
     );
-    // rename file
+    // rename
     await fsPromises.rename(
       path.join(__dirname, "files", "promiseWrite.txt"),
       path.join(__dirname, "files", "promiseComplete.txt")
     );
-
+    // readFile new file
     const newData = await fsPromises.readFile(
       path.join(__dirname, "files", "promiseComplete.txt"),
       "utf8"
@@ -51,7 +47,6 @@ const fileOps = async () => {
 };
 
 fileOps();
-
 process.on("uncaughtExpection", (err) => {
   console.error(`There was an uncaught error: ${err}`);
   process.exit(1);
