@@ -1,10 +1,10 @@
-// npm i nodemon -g
+// npm i nodemon -g 'install nodemon globally'
 // nodemon
 // ctr + c 'to exit nodemon'
 
-// npm init
+// npm init 'initialize node_modules'
 
-// npm i date-fns
+// npm i date-fns 'install package date-fns'
 
 /** npm install
  * when you clone a repo from github
@@ -22,11 +22,11 @@ console.log(uuid());
 // save as a devDependencies
 // npm i nodemon --save-dev
 // OR
-// npm i nodemon -D
+// npm i nodemon -D 'shorthand'
 
 console.log("hmu");
 
-// npm i uuid
+// npm i uuid 'install uuid'
 
 /* json 
  "dependencies": {
@@ -36,7 +36,7 @@ console.log("hmu");
 
   "nameOfDependency" : "^majorVersion.minorVersion.patch",
 
-  ^: update minorVersion or patch but do not update major version
+  ^: update minorVersion or patch but do NOT update major version
   blank: only this specified version will work
   ~: update a patch version but not major or minor versions
   *: update the newest version all the time
@@ -48,7 +48,7 @@ console.log("hmu");
   npm update 
 
   uninstall a dependecy
-  npm uninstall 
+  npm uninstall 'name of dependecy'
   npm un  
   npm rm  
 
