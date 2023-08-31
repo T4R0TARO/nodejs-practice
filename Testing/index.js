@@ -1,41 +1,33 @@
-/** Test
- * 1. init fs
- * 2. init path
- * 3. error handling
- * Callback version
- * 3. readFile()
- * 4. writeFile()
- * 5. appendFile() new file
- * 6. appendFile() change existing file
- * 7. rename()
- */
+// Test
+
 const fsPromises = require("fs").promises;
 const path = require("path");
 
-const fileOps = async () => {
+const filesOps = async () => {
   try {
-    // readFile
     const data = await fsPromises.readFile(
       path.join(__dirname, "files", "starter.txt"),
       "utf8"
     );
     console.log(data);
-    // writeFile
+    // unlink()
+    await fsPromises.unlink(path.join(__dirname, "files", "starter.txt"));
+    // writeFile()
     await fsPromises.writeFile(
       path.join(__dirname, "files", "promiseWrite.txt"),
       data
     );
-    // appendFile
+    // appendFile()
     await fsPromises.appendFile(
       path.join(__dirname, "files", "promiseWrite.txt"),
-      "\n\nWah wah wah"
+      "\n\nNice to meet you Wah"
     );
-    // rename
+    // rename()
     await fsPromises.rename(
       path.join(__dirname, "files", "promiseWrite.txt"),
       path.join(__dirname, "files", "promiseComplete.txt")
     );
-    // readFile new file
+    // read newData
     const newData = await fsPromises.readFile(
       path.join(__dirname, "files", "promiseComplete.txt"),
       "utf8"
@@ -46,7 +38,8 @@ const fileOps = async () => {
   }
 };
 
-fileOps();
+filesOps();
+
 process.on("uncaughtExpection", (err) => {
   console.error(`There was an uncaught error: ${err}`);
   process.exit(1);
