@@ -1,13 +1,13 @@
 const fs = require("fs");
 
 if (!fs.existsSync("./new")) {
-  fs.mkdir("./new", (err) => {
+  mkdir("./new", (err) => {
     if (err) throw err;
   });
 }
 
 if (fs.existsSync("./new")) {
-  fs.rmdir("./new", (err) => {
+  rmdir("./new", (err) => {
     if (err) throw err;
   });
 }

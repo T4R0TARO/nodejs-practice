@@ -1,44 +1,35 @@
 // Test
-
 const fsPromises = require("fs").promises;
 const path = require("path");
 
-const filesOps = async () => {
+const fileOps = async () => {
   try {
+    // readFile
     const data = await fsPromises.readFile(
       path.join(__dirname, "files", "starter.txt"),
       "utf8"
     );
     console.log(data);
-    // unlink()
-    await fsPromises.unlink(path.join(__dirname, "files", "starter.txt"));
-    // writeFile()
+    // writeFile
     await fsPromises.writeFile(
       path.join(__dirname, "files", "promiseWrite.txt"),
       data
     );
-    // appendFile()
+    // appendFile
     await fsPromises.appendFile(
       path.join(__dirname, "files", "promiseWrite.txt"),
-      "\n\nNice to meet you Wah"
+      "\n\nNice to meet you!"
     );
-    // rename()
+    // rename
     await fsPromises.rename(
       path.join(__dirname, "files", "promiseWrite.txt"),
       path.join(__dirname, "files", "promiseComplete.txt")
     );
-    // read newData
-    const newData = await fsPromises.readFile(
-      path.join(__dirname, "files", "promiseComplete.txt"),
-      "utf8"
-    );
-    console.log(newData);
   } catch (err) {
-    console.error(err);
+    console.err(err);
   }
 };
-
-filesOps();
+fileOps();
 
 process.on("uncaughtExpection", (err) => {
   console.error(`There was an uncaught error: ${err}`);

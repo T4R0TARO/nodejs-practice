@@ -1,5 +1,5 @@
 // npm i nodemon -g 'install nodemon globally'
-// nodemon
+// nodemon 'starts nodemon'
 // ctr + c 'to exit nodemon'
 
 // npm init 'initialize node_modules'
@@ -7,9 +7,10 @@
 // npm i date-fns 'install package date-fns'
 
 /** npm install
- * when you clone a repo from github
- * npm install will download the node modules that are in the app
- * the install references the package.json
+ * when you clone a repo from github and it does not have folder `node_module`
+ * when you try to `npm run dev` it will result in an err
+ * `npm install` will download the node modules
+ * `npm install` references the package.json to know what to download
  */
 
 const { format } = require("date-fns");
@@ -58,3 +59,7 @@ console.log("hmu");
   ! if you uninstall a packaged it does not remove it from script
   ! remember to remove it manually
 */
+
+/**.gitignore 'ignore files when pushing to github'
+ * save space
+ */
