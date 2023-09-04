@@ -1,3 +1,4 @@
+// common core modules
 const http = require("http");
 const path = require("path");
 const fs = require("fs");
@@ -6,10 +7,11 @@ const fsPromises = require("fs").promises;
 const logEvents = require("./logEvents");
 const EventEmitter = require("events");
 class Emitter extends EventEmitter {}
+
 // initialize objects
 const myEmitter = new Emitter();
 myEmitter.on("log", (msg, fileName) => logEvents(msg, fileName));
-const PORT = process.env.PORT || 3500;
+const PORT = process.env.PORT || 3500; //Defines the port `localhost:3500`
 
 const serveFile = async (filePath, contentType, response) => {
   try {
@@ -35,6 +37,7 @@ const serveFile = async (filePath, contentType, response) => {
   }
 };
 
+// create minimal server
 const server = http.createServer((req, res) => {
   console.log(req.url, req.method);
   myEmitter.emit("log", `${req.url}\t${req.method}`, "reqLog.txt");
@@ -84,7 +87,7 @@ const server = http.createServer((req, res) => {
     // serve the file
     serveFile(filePath, contentType, res);
   } else {
-    // 301
+    // 301 redirect
     switch (path.parse(filePath).base) {
       case "old-page.html":
         res.writeHead(301, { Location: "/new-page.html" });
@@ -122,6 +125,6 @@ const server = http.createServer((req, res) => {
   //   }
 });
 
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`)); // listen for the request when server starts
 
 // * alt-z : wraps code
