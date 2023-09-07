@@ -1,23 +1,15 @@
-const http = require("http");
+const { createReadStream } = require("fs");
 
-const server = http.createServer((req, res) => {
-  //   console.log(req);
+const stream = createReadStream("./content/big.txt", { highWaterMark: 90000 });
 
-  //   res.write("Welcome to our homepage");
-  //   res.end();
+// default 64kb
+// last buffer - remainder
+// highWaterMark - control size
+// const stream = createReadStream("./content/bigtxt", {highWaterMark})
+// const stream = createReadStream("../content/big.txt", {encoding :"utf8"})
 
-  if (req.url === "/") {
-    res.end("Welcome to our homepage");
-  } else if (req.url === "/about") {
-    res.end("Here is our short history");
-  } else {
-    res.statusCode = 404; // Set the status code to 404 for page not found
-    res.end(`
-      <h1>404 Error</h1>
-      <p>Sumimasori... Something went wrong</p>
-      <a href="/">back home</a>
-    `);
-  }
+stream.on("data", (result) => {
+  console.log("result");
 });
 
-server.listen(5000);
+stream.on("error", (err) => console.log(err));
