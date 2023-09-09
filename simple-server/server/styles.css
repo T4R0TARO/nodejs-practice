@@ -1,0 +1,42 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  padding: 4rem;
+  text-align: center;
+  display: grid;
+  margin: 0 auto;
+  place-items: center;
+}
+
+h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+.image-container {
+  position: relative;
+  outline: 2px solid orange;
+  padding: 2rem;
+  border-radius: 350px;
+  margin-bottom: 2rem;
+}
+
+img {
+  object-fit: cover;
+  object-position: top;
+}
+
+button {
+  font-size: 1rem;
+  padding: 1rem;
+}
