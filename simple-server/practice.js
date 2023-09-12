@@ -1,16 +1,10 @@
 const express = require("express");
 const path = require("path");
+const { holoMyth } = require("./data");
 const app = express();
 
-// create a public folder to hold copies of static files
-app.use(express.static("./public"));
-
 app.get("/", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./server.index.html"));
-});
-
-app.all("*", (req, res) => {
-  res.status(404).send("Resource not found...");
+  res.send('<h1>Homepage</h1><a href="/api/talents">Hololive EN Myth</a>');
 });
 
 app.listen(5000, () => {
