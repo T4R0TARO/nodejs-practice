@@ -3,7 +3,7 @@ const app = express();
 const { holoMyth } = require("./data");
 
 app.get("/", (req, res) => {
-  res.send('<h1>Homepage</h1><a href="/api/talents">Hololive EN Myth</a>');
+  res.send(`<h1>Homepage</h1> <a href="/api/talents">HoloMyth</a>`);
 });
 
 app.get("/api/talents", (req, res) => {
@@ -22,17 +22,13 @@ app.get("/api/talents/:talentID", (req, res) => {
   );
 
   if (!singleTalent) {
-    res.status(404).send("Talent resourse info not found...");
+    res.status(404).send("Talent ID was not found");
   }
 
   return res.json(singleTalent);
 });
 
-app.get("/api/talents/:talentID/reviews/:reviewID", (req, res) => {
-  // console.log(req.params);
-  // console.log("WAH");
-});
-
 app.listen(5000, () => {
-  console.log("Server is listening on port 5000");
+  console.log(`Server listening on port 5000...`);
 });
+// |||
