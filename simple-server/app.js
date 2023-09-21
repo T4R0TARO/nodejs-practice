@@ -24,6 +24,8 @@ app.post("/api/people", (req, res) => {
   res.status(201).json({ success: true, person: name });
 });
 
+// Postman
+
 app.post("/login", (req, res) => {
   // console.log(req.body);
   const { name } = req.body;
