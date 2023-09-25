@@ -1,12 +1,10 @@
-//  * 2. Mongoose Setup
 const mongoose = require("mongoose");
-// * 1. Connect MongoDB w/ connection string (Setup)
-// const connectionString =
-//   "mongodb+srv://jmanansaladev:Takodachi1@nodeexpressprojects.shf6xbn.mongodb.net/task-manager-test?retryWrites=true&w=majority";
 
-//   mongoose v 6.00 and above / no need to fix deprecation warnings
+// update password and db name in str
+const connectionString =
+  "mongodb+srv://jmanansaladev:Takodachi1@nodeexpressprojects.shf6xbn.mongodb.net/task-manager-test?retryWrites=true&w=majority";
 
-// * 3. Mongoose connection w/ err handling
+// mongoose v 6.00 and above / no need to fix deprecation warnings
 const connectDB = (url) => {
   return mongoose
     .connect(url)
@@ -14,5 +12,4 @@ const connectDB = (url) => {
     .catch((err) => console.log(err));
 };
 
-// * 4. Import to app.js
 module.exports = connectDB;
