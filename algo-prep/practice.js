@@ -2,16 +2,16 @@
 // Return a string in reverse
 // ex. reverseString('hello') === 'olleh';
 
-const reverseString = (string) => string.split("").reverse().join("");
+const reverseString = (str) => str.split("").reverse().join("");
 console.log("reverseString()", reverseString("hello"));
 
 // CHALLENGE 2: VALIDATE A PALINDROME
 // Return true if palindrome and false if not
 // ex. isPalindrome('racecar') === 'true', isPalindrome('hello') == false
 
-const isPalindrome = (string) => {
-  const reverseString = string.split("").reverse().join("");
-  return reverseString === string ? true : false;
+const isPalindrome = (str) => {
+  const reverseString = str.split("").reverse().join("");
+  return reverseString === str ? true : false;
 };
 console.log("isPalindrome()", isPalindrome("racecar"), isPalindrome("hello"));
 
@@ -19,10 +19,10 @@ console.log("isPalindrome()", isPalindrome("racecar"), isPalindrome("hello"));
 // Return an integer in reverse
 // ex. reverseInt(521) === 125
 
-function reverseInt(int) {
-  const reverseInt = int.toString().split("").reverse().join("");
-  return Number(reverseInt);
-}
+const reverseInt = (int) => {
+  const reverseString = int.toString().split("").reverse().join("");
+  return Number(reverseString);
+};
 
 console.log("reverseInt()", reverseInt(12345));
 
@@ -48,10 +48,6 @@ console.log(
 // ex. maxCharacter('javascript') == 'a'
 
 function maxCharacter(str) {
-  /**
-   * Populate an obj && return the key with the highest value
-   * Each key represents a letter in the word
-   */
   const charMap = {};
   let maxNum = 0;
   let maxChar = "";
@@ -102,21 +98,14 @@ function fizzBuzz() {
 // SOLUTION 1 - Return a single longest word
 // SOLUTION 2 - Return an array and include multiple words if they have the same length
 // SOLUTION 3 - Only return an array if multiple words, otherwise return a string
-function longestWord(sen) {
-  // Filter arr
-  const wordArr = sen.toLowerCase().match(/[a-z0-9]+/g);
-  // Sort filter arr by length
+const longestWord = (sen) => {
+  const wordArr = sen.toLowerCase().match(/[\w]+/g);
   const sorted = wordArr.sort((a, b) => b.length - a.length);
-  //  check if more than one array val
-  const longestWord = sorted.filter((word) => word.length === sorted[0].length);
-
-  //if more thaan one arr val
-  if (longestWord.length === 1) {
-    return longestWord[0];
-  } else {
-    return longestWord;
-  }
-}
+  const longestWordArr = sorted.filter(
+    (word) => word.length === sorted[0].length
+  );
+  return longestWordArr.length === 1 ? longestWordArr[0] : longestWordArr;
+};
 console.log("longestWord()", longestWord("Hello there, my name is Josh"));
 console.log("longestWord()", longestWord("Hello, my name is Josh"));
 // CHALLENGE 2: ARRAY CHUNKING
@@ -124,38 +113,34 @@ console.log("longestWord()", longestWord("Hello, my name is Josh"));
 // ex. chunkArray([1, 2, 3, 4, 5, 6, 7], 3) === [[1, 2, 3],[4, 5, 6],[7]]
 // ex. chunkArray([1, 2, 3, 4, 5, 6, 7], 2) === [[1, 2],[3, 4],[5, 6],[7]]
 
-function chunkArray(arr, len) {
+const chunkArray = (arr, len) => {
   const chunkedArr = [];
   let i = 0;
 
   while (i < arr.length) {
     chunkedArr.push(arr.slice(i, i + len));
-    i += len;
+    i += len; // increase by the value of `len`
   }
-
   return chunkedArr;
-}
+};
+
 console.log("chunkArray()", chunkArray([1, 2, 3, 4, 5, 6, 7, 8], 3));
 // CHALLENGE 3: FLATTEN ARRAY
 // Take an array of arrays and flatten to a single array
 // ex. [[1, 2], [3, 4], [5, 6], [7]] = [1, 2, 3, 4, 5, 6, 7]
 
-function flattenArray(arrays) {
-  return [].concat(...arrays);
-}
+const flattenArray = (arrays) => arrays.reduce((a, b) => a.concat(b));
 console.log("flattenArray()", flattenArray([[1, 2], [3, 4], [5, 6], [7]]));
 // CHALLENGE 4: ANAGRAM
 // Return true if anagram and false if not
 // ex. 'elbow' === 'below'
 // ex. 'Dormitory' === 'dirty room##'
 
-function isAnagram(str1, str2) {
-  return formatStr(str2) === formatStr(str2);
-}
+const isAnagram = (str1, str2) => formatStr(str1) === formatStr(str2);
 
-function formatStr(str) {
-  return str.replace(/[^\w]/g, "").toLowerCase().split("").sort().join("");
-}
+const formatStr = (str) =>
+  str.replace(/[^\w]/g, "").toLowerCase().split("").sort().join("");
+
 console.log("isAnagram()", isAnagram("elbow", "below"));
 console.log("isAnagram()", isAnagram("Dormitory", "dirty room##"));
 // CHALLENGE 5: LETTER CHANGES
@@ -163,17 +148,18 @@ console.log("isAnagram()", isAnagram("Dormitory", "dirty room##"));
 // Z should turn to A
 // ex. 'hello there' === 'Ifmmp UIfsf'
 
-function letterChanges(str) {
+const letterChanges = (str) => {
+  // change every letter of the string to the one that follows it
   let newStr = str.toLowerCase().replace(/[a-z]/gi, (char) => {
-    if (char === "z" || char === "Z") {
-      return "a";
-    } else {
-      return String.fromCharCode(char.charCodeAt() + 1);
-    }
+    // Z should turn to A
+    return char === "z" || char === "Z"
+      ? "a"
+      : String.fromCharCode(char.charCodeAt() + 1);
   });
+  // capitalizes the vowels
   newStr = newStr.replace(/a|e|i|o|u/gi, (vowel) => vowel.toUpperCase());
   return newStr;
-}
+};
 
 console.log("letterChange()", letterChanges("hello there"));
 //ARRAY CARDIO 3
@@ -182,17 +168,67 @@ console.log("letterChange()", letterChanges("hello there"));
 // Return a sum of all parameters entered regardless of the amount of numbers - NO ARRAYS
 // ex. addAll(2,5,6,7) === 20
 
-function addAll(...num) {
-  return num.reduce((acc, cur) => acc + cur);
-}
+const addAll = (...num) => num.reduce((acc, cur) => acc + cur);
 console.log("addAll", addAll(2, 5, 6, 7));
 
 // CHALLENGE 2: SUM ALL PRIMES
 // Pass in a number to loop up to and add all of the prime numbers. A prime number is a whole number greater than 1 whose only factors are 1 and itself
 // ex. sumAllPrimes(10) == 17
 
-function sumAllPrimes(num) {}
+// function sumAllPrimes(num) {
+//   // init value to return total
+//   let total = 0;
 
+//   // loop through  `num` to check for prime numbers
+//   function checkForPrime(i) {
+//     for (let j = 2; j < i; j++) {
+//       if (i % j === 0) {
+//         return false; // not a prime number
+//       }
+//     }
+//     return true; // prime number
+//   }
+
+//   // add prime numbers to `total`
+//   for (let i = 2; i <= num; i++) {
+//     if (checkForPrime(i)) {
+//       total += i;
+//     }
+//   }
+//   // return total
+//   return total;
+// }
+
+/**
+ * Create a f() that iterates through a num and checks for primes
+ * if number pass = 1 the return false
+ * Loop through the number with counter starting at `2`
+ * if number is divisible by counter return false and exit the f() (not prime)
+ * if number is not divisible by any of the counter values return true (prime)
+ */
+
+function sumAllPrimes(num) {
+  let sum = 0;
+
+  const checkForPrime = (i) => {
+    i <= 1 && false;
+    for (let j = 2; j < i; j++) {
+      if (i % j === 0) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  for (let i = 2; i <= num; i++) {
+    if (checkForPrime(i)) {
+      sum += i;
+    }
+  }
+  return sum;
+}
+
+console.log("sumAllPrimes()", sumAllPrimes(10));
 // CHALLENGE 3: SEEK & DESTROY
 // Remove from the array whatever is in the following arguments. Return the leftover values in an array
 // ex. seekAndDestroy([2, 3, 4, 6, 6, 'hello'], 2, 6) == [3, 4, 'hello']
