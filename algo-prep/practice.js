@@ -3,6 +3,7 @@
 // ex. reverseString('hello') === 'olleh';
 
 const reverseString = (str) => str.split("").reverse().join("");
+
 console.log("reverseString()", reverseString("hello"));
 
 // CHALLENGE 2: VALIDATE A PALINDROME
@@ -10,8 +11,8 @@ console.log("reverseString()", reverseString("hello"));
 // ex. isPalindrome('racecar') === 'true', isPalindrome('hello') == false
 
 const isPalindrome = (str) => {
-  const reverseString = str.split("").reverse().join("");
-  return reverseString === str ? true : false;
+  const reverseStr = str.split("").reverse().join("");
+  return reverseStr === str;
 };
 console.log("isPalindrome()", isPalindrome("racecar"), isPalindrome("hello"));
 
@@ -19,11 +20,10 @@ console.log("isPalindrome()", isPalindrome("racecar"), isPalindrome("hello"));
 // Return an integer in reverse
 // ex. reverseInt(521) === 125
 
-const reverseInt = (int) => {
-  const reverseString = int.toString().split("").reverse().join("");
-  return Number(reverseString);
+const reverseInt = (num) => {
+  const reverseNumber = num.toString().split("").reverse().join("");
+  return Number(reverseNumber);
 };
-
 console.log("reverseInt()", reverseInt(12345));
 
 //CHALLENGE 4: CAPITALIZE LETTERS
@@ -47,7 +47,7 @@ console.log(
 //Return the character that is most common in a string
 // ex. maxCharacter('javascript') == 'a'
 
-function maxCharacter(str) {
+const maxCharacter = (str) => {
   const charMap = {};
   let maxNum = 0;
   let maxChar = "";
@@ -64,15 +64,14 @@ function maxCharacter(str) {
   }
 
   return maxChar;
-}
-
+};
 console.log("maxCharacter()", maxCharacter("javascripttttt"));
 
 //CHALLENGE 6: FIZZBUZZ
 //Write a program that prints all the numbers from 1 to 100. For multiples of 3, instead of the number, print "Fizz", for multiples of 5 print "Buzz".
 //For numbers which are multiples of both 3 and 5, print "FizzBuzz".
 
-function fizzBuzz() {
+const fizzBuzz = () => {
   for (let i = 0; i <= 100; i++) {
     if (i % 3 === 0 && i % 5 === 0) {
       console.log("FizzBuzz");
@@ -84,8 +83,7 @@ function fizzBuzz() {
       console.log(i);
     }
   }
-}
-
+};
 // console.log("fizzBuzz()", fizzBuzz());
 
 // ARRAY CARDIO 2
@@ -98,16 +96,20 @@ function fizzBuzz() {
 // SOLUTION 1 - Return a single longest word
 // SOLUTION 2 - Return an array and include multiple words if they have the same length
 // SOLUTION 3 - Only return an array if multiple words, otherwise return a string
-const longestWord = (sen) => {
-  const wordArr = sen.toLowerCase().match(/[\w]+/g);
-  const sorted = wordArr.sort((a, b) => b.length - a.length);
+
+const longestWord = (str) => {
+  const formatStr = str.toLowerCase().match(/[\w]+/g);
+  const sorted = formatStr.sort((a, b) => b.length - a.length);
   const longestWordArr = sorted.filter(
     (word) => word.length === sorted[0].length
   );
+
   return longestWordArr.length === 1 ? longestWordArr[0] : longestWordArr;
 };
+
 console.log("longestWord()", longestWord("Hello there, my name is Josh"));
 console.log("longestWord()", longestWord("Hello, my name is Josh"));
+
 // CHALLENGE 2: ARRAY CHUNKING
 // Split an array into chunked arrays of a specific length
 // ex. chunkArray([1, 2, 3, 4, 5, 6, 7], 3) === [[1, 2, 3],[4, 5, 6],[7]]
@@ -116,59 +118,59 @@ console.log("longestWord()", longestWord("Hello, my name is Josh"));
 const chunkArray = (arr, len) => {
   const chunkedArr = [];
   let i = 0;
-
   while (i < arr.length) {
     chunkedArr.push(arr.slice(i, i + len));
-    i += len; // increase by the value of `len`
+    i += len;
   }
   return chunkedArr;
 };
-
 console.log("chunkArray()", chunkArray([1, 2, 3, 4, 5, 6, 7, 8], 3));
 // CHALLENGE 3: FLATTEN ARRAY
 // Take an array of arrays and flatten to a single array
 // ex. [[1, 2], [3, 4], [5, 6], [7]] = [1, 2, 3, 4, 5, 6, 7]
 
-const flattenArray = (arrays) => arrays.reduce((a, b) => a.concat(b));
+const flattenArray = (arr) => arr.reduce((a, b) => a.concat(b));
 console.log("flattenArray()", flattenArray([[1, 2], [3, 4], [5, 6], [7]]));
 // CHALLENGE 4: ANAGRAM
 // Return true if anagram and false if not
 // ex. 'elbow' === 'below'
 // ex. 'Dormitory' === 'dirty room##'
 
-const isAnagram = (str1, str2) => formatStr(str1) === formatStr(str2);
+const isAnagram = (str1, str2) => {
+  return formatStr(str1) === formatStr(str2);
+};
 
 const formatStr = (str) =>
   str.replace(/[^\w]/g, "").toLowerCase().split("").sort().join("");
 
+// console.log(formatStr("Dormitory"));
 console.log("isAnagram()", isAnagram("elbow", "below"));
 console.log("isAnagram()", isAnagram("Dormitory", "dirty room##"));
 // CHALLENGE 5: LETTER CHANGES
 // Change every letter of the string to the one that follows it and capitalize the vowels
 // Z should turn to A
 // ex. 'hello there' === 'Ifmmp UIfsf'
-
 const letterChanges = (str) => {
-  // change every letter of the string to the one that follows it
   let newStr = str.toLowerCase().replace(/[a-z]/gi, (char) => {
-    // Z should turn to A
-    return char === "z" || char === "Z"
-      ? "a"
-      : String.fromCharCode(char.charCodeAt() + 1);
+    if (char === "z" || char === "Z") {
+      return "a";
+    } else {
+      return String.fromCharCode(char.charCodeAt() + 1);
+    }
   });
-  // capitalizes the vowels
   newStr = newStr.replace(/a|e|i|o|u/gi, (vowel) => vowel.toUpperCase());
   return newStr;
 };
-
-console.log("letterChange()", letterChanges("hello there"));
+console.log("letterChanges()", letterChanges("hello there"));
 //ARRAY CARDIO 3
 
 // CHALLENGE 1: ADD ALL NUMBERS
 // Return a sum of all parameters entered regardless of the amount of numbers - NO ARRAYS
 // ex. addAll(2,5,6,7) === 20
 
-const addAll = (...num) => num.reduce((acc, cur) => acc + cur);
+const addAll = (...num) => {
+  return num.reduce((acc, cur) => acc + cur);
+};
 console.log("addAll", addAll(2, 5, 6, 7));
 
 // CHALLENGE 2: SUM ALL PRIMES
@@ -228,7 +230,7 @@ function sumAllPrimes(num) {
   return sum;
 }
 
-console.log("sumAllPrimes()", sumAllPrimes(10));
+// console.log("sumAllPrimes()", sumAllPrimes(10));
 // CHALLENGE 3: SEEK & DESTROY
 // Remove from the array whatever is in the following arguments. Return the leftover values in an array
 // ex. seekAndDestroy([2, 3, 4, 6, 6, 'hello'], 2, 6) == [3, 4, 'hello']
