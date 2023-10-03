@@ -208,9 +208,12 @@ console.log("addAll", addAll(2, 5, 6, 7));
 
 const sumAllPrimes = (num) => {
   let total = 0;
+
+  // checks if the number is divisible by only its self and 1
   const checkForPrimes = (i) => {
     i === 1 && false;
     for (let j = 2; j < i; j++) {
+      // number is divisble by counter then number is not a prime
       if (i % j === 0) {
         return false;
       }
