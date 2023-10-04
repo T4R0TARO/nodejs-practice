@@ -20,8 +20,8 @@ console.log("isPalindrome()", isPalindrome("racecar"), isPalindrome("hello"));
 // ex. reverseInt(521) === 125
 
 const reverseInt = (int) => {
-  const reversedInt = int.toString().split("").reverse().join("");
-  return Number(reversedInt);
+  const reverseStr = int.toString().split("").reverse().join("");
+  return Number(reverseStr);
 };
 console.log("reverseInt()", reverseInt(12345));
 
@@ -61,6 +61,7 @@ const maxCharacter = (str) => {
       maxChar = char;
     }
   }
+
   return maxChar;
 };
 console.log("maxCharacter()", maxCharacter("javascripttttt"));
@@ -69,19 +70,6 @@ console.log("maxCharacter()", maxCharacter("javascripttttt"));
 //Write a program that prints all the numbers from 1 to 100. For multiples of 3, instead of the number, print "Fizz", for multiples of 5 print "Buzz".
 //For numbers which are multiples of both 3 and 5, print "FizzBuzz".
 
-const fizzBuzz = () => {
-  for (let i = 0; i <= 100; i++) {
-    if (i % 3 === 0 || i % 5 === 0) {
-      console.log("FizzBizz");
-    } else if (i % 3 === 0) {
-      console.log("Fizz");
-    } else if (i % 5 === 0) {
-      console.log("Buzz");
-    } else {
-      console.log(i);
-    }
-  }
-};
 // console.log("fizzBuzz()", fizzBuzz());
 
 // ARRAY CARDIO 2
@@ -95,88 +83,44 @@ const fizzBuzz = () => {
 // SOLUTION 2 - Return an array and include multiple words if they have the same length
 // SOLUTION 3 - Only return an array if multiple words, otherwise return a string
 
-const longestWord = (str) => {
-  // removes symbols/punctuations
-  const formatStr = str
-    .toLowerCase()
-    .match(/[\w]+/g)
-    .sort((a, b) => b.length - a.length);
-
-  // first item is the longest word
-  const longestWordArr = formatStr.filter(
-    (word) => word.length === formatStr[0].length
-  );
-  // if multiple longest word return arr else return single word
-  return longestWordArr.length === 1 ? longestWordArr[0] : longestWordArr;
-};
-
-console.log("longestWord()", longestWord("Hello there, my name is Josh"));
-console.log("longestWord()", longestWord("Hello, my name is Josh"));
+// console.log("longestWord()", longestWord("Hello there, my name is Josh"));
+// console.log("longestWord()", longestWord("Hello, my name is Josh"));
 
 // CHALLENGE 2: ARRAY CHUNKING
 // Split an array into chunked arrays of a specific length
 // ex. chunkArray([1, 2, 3, 4, 5, 6, 7], 3) === [[1, 2, 3],[4, 5, 6],[7]]
 // ex. chunkArray([1, 2, 3, 4, 5, 6, 7], 2) === [[1, 2],[3, 4],[5, 6],[7]]
 
-const chunkArray = (arr, len) => {
-  const chunkedArr = [];
-
-  let i = 0;
-
-  while (i < arr.length) {
-    chunkedArr.push(arr.slice(i, i + len));
-    i += len;
-  }
-
-  return chunkedArr;
-};
-
-console.log("chunkArray()", chunkArray([1, 2, 3, 4, 5, 6, 7, 8], 3));
+// console.log("chunkArray()", chunkArray([1, 2, 3, 4, 5, 6, 7, 8], 3));
 // CHALLENGE 3: FLATTEN ARRAY
 // Take an array of arrays and flatten to a single array
 // ex. [[1, 2], [3, 4], [5, 6], [7]] = [1, 2, 3, 4, 5, 6, 7]
 
-const flattenArray = (arr) => arr.reduce((a, b) => a.concat(b));
-console.log("flattenArray()", flattenArray([[1, 2], [3, 4], [5, 6], [7]]));
+// console.log("flattenArray()", flattenArray([[1, 2], [3, 4], [5, 6], [7]]));
 
 // CHALLENGE 4: ANAGRAM
 // Return true if anagram and false if not
 // ex. 'elbow' === 'below'
 // ex. 'Dormitory' === 'dirty room##'
 
-const isAnagram = (str1, str2) => {
-  const formatStr = (str) => str.toLowerCase().match(/[\w]/g).sort().join("");
-  return formatStr(str1) === formatStr(str2);
-};
-
 // console.log(formatStr("Dormitory###"));
-console.log("isAnagram()", isAnagram("elbow", "below"));
-console.log("isAnagram()", isAnagram("Dormitory", "dirty room##"));
+// console.log("isAnagram()", isAnagram("elbow", "below"));
+// console.log("isAnagram()", isAnagram("Dormitory", "dirty room##"));
+
 // CHALLENGE 5: LETTER CHANGES
 // Change every letter of the string to the one that follows it and capitalize the vowels
 // Z should turn to A
 // ex. 'hello there' === 'Ifmmp UIfsf'
 
-const letterChanges = (str) => {
-  let newStr = str.toLowerCase().replace(/[\w]/gi, (char) => {
-    if (char === "z" || char === "Z") {
-      return "a";
-    } else {
-      return String.fromCharCode(char.charCodeAt() + 1);
-    }
-  });
+// console.log("letterChanges()", letterChanges("hello there zzz"));
 
-  return newStr;
-};
-console.log("letterChanges()", letterChanges("hello there zzz"));
 //ARRAY CARDIO 3
 
 // CHALLENGE 1: ADD ALL NUMBERS
 // Return a sum of all parameters entered regardless of the amount of numbers - NO ARRAYS
 // ex. addAll(2,5,6,7) === 20
 
-const addAll = (...num) => num.reduce((acc, cur) => acc + cur);
-console.log("addAll", addAll(2, 5, 6, 7));
+// console.log("addAll", addAll(2, 5, 6, 7));
 
 // CHALLENGE 2: SUM ALL PRIMES
 // Pass in a number to loop up to and add all of the prime numbers. A prime number is a whole number greater than 1 whose only factors are 1 and itself
@@ -206,30 +150,7 @@ console.log("addAll", addAll(2, 5, 6, 7));
 //   return total;
 // }
 
-const sumAllPrimes = (num) => {
-  let total = 0;
-
-  // checks if the number is divisible by only its self and 1
-  const checkForPrimes = (i) => {
-    i === 1 && false;
-    for (let j = 2; j < i; j++) {
-      // number is divisble by counter then number is not a prime
-      if (i % j === 0) {
-        return false;
-      }
-    }
-    return true;
-  };
-
-  for (let i = 2; i <= num; i++) {
-    if (checkForPrimes(i)) {
-      total += i;
-    }
-  }
-  return total;
-};
-
-console.log("sumAllPrimes()", sumAllPrimes(10));
+// console.log("sumAllPrimes()", sumAllPrimes(10));
 // CHALLENGE 3: SEEK & DESTROY
 // Remove from the array whatever is in the following arguments. Return the leftover values in an array
 // ex. seekAndDestroy([2, 3, 4, 6, 6, 'hello'], 2, 6) == [3, 4, 'hello']
@@ -259,3 +180,26 @@ function missingLetters(str) {}
 // evenOddSums([50, 60, 60, 45, 71]) == [170, 116]
 
 function evenOddSums(arr) {}
+
+// NEW CHALLENGE
+/* input: ?foo=hello&bar=world 
+   output: {
+       foo: 'hello',
+       bar: 'world'
+   }
+*/
+
+function formatQueryStr(str) {
+  const output = {};
+  const formatStr = str.replace(/[^/w]/, "").split("&");
+
+  formatStr.map((pair) => {
+    const splitPair = pair.split("=");
+    const [key, value] = splitPair;
+    if (key) output[key] = value;
+  });
+  return output;
+}
+
+console.log(formatQueryStr("?foo=hello&bar=world"));
+console.log(formatQueryStr("?"));
