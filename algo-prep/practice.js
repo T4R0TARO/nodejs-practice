@@ -159,7 +159,20 @@ console.log("isAnagram()", isAnagram("Dormitory", "dirty room##"));
 // Z should turn to A
 // ex. 'hello there' === 'Ifmmp UIfsf'
 
-// console.log("letterChanges()", letterChanges("hello there zzz"));
+const letterChanges = (str) => {
+  // Z should turn to A
+  let newStr = str.toLowerCase().replace(/[\w]/gi, (char) => {
+    if (char === "z" || char === "Z") {
+      return "a";
+    } else {
+      return char;
+    }
+  });
+  // Capitalize vowels
+  // Change every letter to the one that follows it
+  return newStr;
+};
+console.log("letterChanges()", letterChanges("hello there zzz"));
 
 //ARRAY CARDIO 3
 
@@ -167,7 +180,8 @@ console.log("isAnagram()", isAnagram("Dormitory", "dirty room##"));
 // Return a sum of all parameters entered regardless of the amount of numbers - NO ARRAYS
 // ex. addAll(2,5,6,7) === 20
 
-// console.log("addAll", addAll(2, 5, 6, 7));
+const addAll = (...num) => num.reduce((a, b) => a + b);
+console.log("addAll", addAll(2, 5, 6, 7));
 
 // CHALLENGE 2: SUM ALL PRIMES
 // Pass in a number to loop up to and add all of the prime numbers. A prime number is a whole number greater than 1 whose only factors are 1 and itself
@@ -197,7 +211,27 @@ console.log("isAnagram()", isAnagram("Dormitory", "dirty room##"));
 //   return total;
 // }
 
-// console.log("sumAllPrimes()", sumAllPrimes(10));
+const sumAllPrimes = (num) => {
+  let output = 0;
+
+  const checkForPrime = (i) => {
+    for (let j = 2; j < i; j++) {
+      if (i % j === 0) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  for (let i = 2; i < num; i++) {
+    if (checkForPrime(i)) {
+      output += i;
+    }
+  }
+
+  return output;
+};
+console.log("sumAllPrimes()", sumAllPrimes(10));
 // CHALLENGE 3: SEEK & DESTROY
 // Remove from the array whatever is in the following arguments. Return the leftover values in an array
 // ex. seekAndDestroy([2, 3, 4, 6, 6, 'hello'], 2, 6) == [3, 4, 'hello']
@@ -236,17 +270,31 @@ function evenOddSums(arr) {}
    }
 */
 
+// function formatQueryStr(str) {
+//   const output = {};
+//   const formatStr = str.replace(/[^/w]/, "").split("&");
+
+//   formatStr.map((pair) => {
+//     const splitPair = pair.split("=");
+//     let [key, value] = splitPair;
+//     if (key) output[key] = value;
+//   });
+//   return output;
+// }
+
 function formatQueryStr(str) {
   const output = {};
-  const formatStr = str.replace(/[^/w]/, "").split("&");
+
+  const formatStr = str.replace("?", "").split("&");
 
   formatStr.map((pair) => {
     const splitPair = pair.split("=");
     let [key, value] = splitPair;
     if (key) output[key] = value;
   });
+
   return output;
 }
 
-// console.log(formatQueryStr("?foo=hello&bar=world"));
-// console.log(formatQueryStr("?"));
+console.log(formatQueryStr("?foo=hello&bar=world"));
+console.log(formatQueryStr("?"));
