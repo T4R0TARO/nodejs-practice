@@ -1,0 +1,96 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+h1 {
+  color: #333;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: whitesmoke;
+  border: none;
+  cursor: pointer;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.rates-container {
+  border: 1px solid grey;
+  width: 350px;
+}
+
+#gachaButton {
+  width: 300px;
+}
+
+#pullTenButton {
+  width: 300px;
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #333;
+}
+
+/* Define a CSS class for common items with a light gray border */
+.common-item {
+  border: 3px solid black;
+  background-color: #ccc;
+  padding: 20px;
+  margin: 5px;
+  width: 4rem;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+/* Define a CSS class for rare items with a light blue border */
+.rare-item {
+  border: 3px solid black;
+  background-color: #007bff;
+  padding: 20px;
+  margin: 5px;
+  width: 4rem;
+  border-radius: 8px;
+  display: inline-block;
+  animation: pulse 1s infinite; /* Add pulsing animation */
+}
+
+/* Define a CSS class for legendary items with a gold border */
+.legendary-item {
+  border: 3px solid black;
+  background-color: gold;
+  padding: 20px;
+  margin: 5px;
+  width: 4rem;
+  border-radius: 8px;
+  display: inline-block;
+  animation: pulse 1s infinite; /* Add pulsing animation */
+}
+
+/* Define the pulsing animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+#result {
+  font-size: 3rem;
+}

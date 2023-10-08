@@ -432,3 +432,17 @@ function evenOddSums(arr) {
 const output = letterChanges("Hello There");
 
 console.log(output);
+
+// POPULATE OBJECT
+
+// function formatQueryStr(str) {
+//   const output = {};
+//   const formatStr = str.replace(/[^/w]/, "").split("&");
+
+//   formatStr.map((pair) => {
+//     const splitPair = pair.split("=");
+//     let [key, value] = splitPair;
+//     if (key) output[key] = value;
+//   });
+//   return output;
+// }
