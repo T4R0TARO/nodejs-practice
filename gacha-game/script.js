@@ -64,8 +64,14 @@ const legendarySummonPool = [
 
 // Initialize the total currency spent
 let totalCurrencySpent = 0;
+// Initialize an empty history object to store the counts of different items
+const history = {
+  "Common Item": 0,
+  "Rare Item": 0,
+  "Legendary Item": 0,
+};
 
-// Function to simulate pulling from the gacha
+// Function to simulate pulling from the gacha and update the history
 function pullFromGacha() {
   // Generate a random number between 0 and 100
   const randomNumber = Math.random() * 100;
@@ -83,8 +89,60 @@ function pullFromGacha() {
     }
   }
 
+  // Update the history with the pulled item
+  history[selectedReward]++;
+
   return selectedReward;
 }
+
+let isHistoryVisible = false;
+
+// Function to toggle the display of history
+function toggleHistory() {
+  const historyElement = document.getElementById("history");
+
+  if (isHistoryVisible) {
+    historyElement.style.display = "none";
+    isHistoryVisible = false;
+  } else {
+    historyElement.style.display = "block";
+    displayHistory();
+    isHistoryVisible = true;
+  }
+}
+
+// Function to display the history of pulled items
+// function displayHistory() {
+//   const historyElement = document.getElementById("history");
+//   historyElement.innerHTML = "Pulled Items History:<br>";
+
+//   for (const item in history) {
+//     historyElement.innerHTML += `${item}: ${history[item]} `;
+//   }
+// }
+
+function displayHistory() {
+  const historyElement = document.getElementById("history");
+  historyElement.innerHTML = "Pulled Items History:<br>";
+
+  for (const item in history) {
+    let itemColor = "black"; // Default color
+
+    if (item === "Common Item") {
+      itemColor = "gray"; // Change font color to gray for "Common Item"
+    } else if (item === "Rare Item") {
+      itemColor = "lightblue"; // Change font color to gray for "Common Item"
+    } else if (item === "Legendary Item") {
+      itemColor = "gold"; // Change font color to gray for "Common Item"
+    }
+
+    historyElement.innerHTML += `<span style="color: ${itemColor};">${item}: ${history[item]}</span> `;
+  }
+}
+
+// Attach click event listener to the "Show History" button
+const showHistoryButton = document.getElementById("showHistoryButton");
+showHistoryButton.addEventListener("click", toggleHistory);
 
 // Function to simulate pulling a single item and add 3 to totalCurrencySpent
 function pullOnce() {
@@ -124,6 +182,9 @@ function pullOnce() {
     // For other rarities, display the rarity name
     resultElement.textContent = `You obtained: ${pulledItem}`;
   }
+
+  // Display the updated history
+  displayHistory();
 }
 
 // Function to simulate pulling 10 items
@@ -170,6 +231,8 @@ function pullTenTimes() {
       resultElement.textContent += `${item} `;
     }
   }
+  // Display the updated history
+  displayHistory();
 }
 
 // Attach click event listeners to the gacha button and pull ten button

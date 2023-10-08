@@ -94,3 +94,10 @@ button {
 #result {
   font-size: 3rem;
 }
+
+.history {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
