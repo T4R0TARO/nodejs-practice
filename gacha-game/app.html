@@ -8,13 +8,26 @@
   </head>
   <body>
     <h1>Gacha Game</h1>
+    <div class="gacha-rates-container">
+      <h2>Gacha Rates</h2>
+      <p>Common Vegatables: 94% 🥦🥕🌽...</p>
+      <p>Rare Fruits: 5% 🍈🍉🍒...</p>
+      <p>Legendary Sweets: 1% 🍪🧁🍫...</p>
+    </div>
     <button id="gachaButton">Pull</button>
     <button id="pullTenButton">Pull 10 Times</button>
+    <div class="rate-up-container">
+      <h2>Rate Up Banner 2%</h2>
+      <p>SSR:🍪</p>
+    </div>
     <p id="currencySpent">Currency Spent: 0</p>
+    <!-- Add a loading image -->
+    <div id="loading" class="spinner" style="display: none">
+      <div class="spinner-img">🌀</div>
+    </div>
     <div id="result"></div>
     <button id="showHistoryButton">History</button>
     <div class="history" id="history"></div>
-
     <script src="script.js"></script>
   </body>
 </html>

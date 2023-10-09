@@ -28,6 +28,16 @@ button {
   border: 1px solid grey;
   width: 350px;
 }
+.rate-up-container {
+  border: 1px solid gold;
+  background-color: gold;
+  border-radius: 18px;
+  margin: 3rem;
+}
+
+.rate-up-container p {
+  font-size: 4rem;
+}
 
 #gachaButton {
   width: 300px;
@@ -93,11 +103,30 @@ button {
 
 #result {
   font-size: 3rem;
+  margin-bottom: 3rem;
 }
 
-.history {
+#showHistoryButton {
+  margin-bottom: 2rem;
+}
+
+/* Add a spinning animation */
+.spinner {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size: 8rem;
+}
+
+.spinner .spinner-img {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
