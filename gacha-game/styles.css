@@ -1,6 +1,12 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: Arial, sans-serif;
   text-align: center;
+  margin: 2rem;
 }
 
 h1 {
@@ -24,19 +30,23 @@ button {
   gap: 1rem;
 }
 
-.rates-container {
+.gacha-rates-container {
   border: 1px solid grey;
+  margin: 0 auto;
   width: 350px;
+  margin-bottom: 1rem;
 }
 .rate-up-container {
-  border: 1px solid gold;
-  background-color: gold;
+  border: 3px solid gold;
+  padding: 1rem;
+  background-color: purple;
   border-radius: 18px;
-  margin: 3rem;
+  margin: 2rem 15rem;
+  color: whitesmoke;
 }
 
 .rate-up-container p {
-  font-size: 4rem;
+  font-size: 3rem;
 }
 
 #gachaButton {
@@ -88,6 +98,27 @@ button {
   animation: pulse 1s infinite; /* Add pulsing animation */
 }
 
+.rate-up-item {
+  /* border: 3px solid black; */
+  border: 5px solid transparent;
+  border-image: linear-gradient(
+    to bottom right,
+    #b827fc 0%,
+    #2c90fc 25%,
+    #b8fd33 50%,
+    #fec837 75%,
+    #fd1892 100%
+  );
+  border-image-slice: 1;
+  background-color: purple;
+  padding: 20px;
+  margin: 5px;
+  width: 4rem;
+  border-radius: 8px;
+  display: inline-block;
+  animation: pulse 1s infinite; /* Add pulsing animation */
+}
+
 /* Define the pulsing animation */
 @keyframes pulse {
   0% {
@@ -112,14 +143,17 @@ button {
 
 /* Add a spinning animation */
 .spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-size: 8rem;
 }
 
 .spinner .spinner-img {
   animation: spin 1s linear infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  height: 200px;
+  width: 200px;
 }
 
 @keyframes spin {

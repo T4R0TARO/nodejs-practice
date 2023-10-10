@@ -1,39 +1,24 @@
 // * CHALLENGE 1:  REVERSE A STRING
 // Return a string in reverse
 // ex. reverseString('hello') === 'olleh';
-const reverseString = (str) => str.split("").reverse().join("");
 console.log("reverseString()", reverseString("hello"));
 
 // * CHALLENGE 2: VALIDATE A PALINDROME
 // Return true if palindrome and false if not
 // ex. isPalindrome('racecar') === 'true', isPalindrome('hello') == false
-const isPalindrome = (str) => {
-  const reverseStr = str.split("").reverse().join("");
-  return str === reverseStr;
-};
+
 console.log("isPalindrome()", isPalindrome("racecar"), isPalindrome("hello"));
 
 // * CHALLENGE 3: REVERSE AN INTEGER
 // Return an integer in reverse
 // ex. reverseInt(521) === 125
 
-const reverseInt = (int) => {
-  const reverseInt = int.toString().split("").reverse().join("");
-  return Number(reverseInt);
-};
 console.log("reverseInt()", reverseInt(12345));
 
 // * CHALLENGE 4: CAPITALIZE LETTERS
 //Return a string with the first letter of every word capitalized
 // ex. capitalLettters('i love javascript') === 'I Love Javascript'
 
-const capitalizeLetters = (str) => {
-  return str
-    .toLowerCase()
-    .split(" ")
-    .map((word) => word[0].toUpperCase() + word.substring(1))
-    .join(" ");
-};
 console.log(
   "capitalizeLetters()",
   capitalizeLetters("ina of the mountain what is your wisdom")
@@ -169,5 +154,5 @@ function evenOddSums(arr) {}
    }
 */
 
-// console.log(formatQueryStr("?foo=hello&bar=world"));
-// console.log(formatQueryStr("?"));
+console.log(formatQueryStr("?foo=hello&bar=world"));
+console.log(formatQueryStr("?"));

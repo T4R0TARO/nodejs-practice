@@ -1,14 +1,8 @@
-// const {
-//   commonSummonPool,
-//   rareSummonPool,
-//   legendarySummonPool,
-// } = require("./data.js");
-
 // Define an array of possible rewards with associated percentages
 const rewards = [
-  { name: "Common Item", chance: 94 },
+  { name: "Common Item", chance: 92 },
   { name: "Rare Item", chance: 5 },
-  // { name: "Epic Item", chance: 15 },
+  { name: "Rate Up Item", chance: 2 },
   { name: "Legendary Item", chance: 1 },
 ];
 
@@ -62,6 +56,9 @@ const legendarySummonPool = [
   "🍩",
 ];
 
+// Rate Up Pool
+const rateUpSummonPool = ["🍪"];
+
 // Initialize the total currency spent
 let totalCurrencySpent = 0;
 // Initialize an empty history object to store the counts of different items
@@ -69,6 +66,7 @@ const history = {
   "Common Item": 0,
   "Rare Item": 0,
   "Legendary Item": 0,
+  "Rate Up Item": 0,
 };
 
 // Function to simulate pulling from the gacha and update the history
@@ -121,9 +119,11 @@ function displayHistory() {
     if (item === "Common Item") {
       itemColor = "gray"; // Change font color to gray for "Common Item"
     } else if (item === "Rare Item") {
-      itemColor = "lightblue"; // Change font color to gray for "Common Item"
+      itemColor = "lightblue"; // Change font color to gray for "Rare Item"
     } else if (item === "Legendary Item") {
-      itemColor = "gold"; // Change font color to gray for "Common Item"
+      itemColor = "gold"; // Change font color to gray for "Legendary Item"
+    } else if (item === "Rate Up Item") {
+      itemColor = "Purple"; // Change font color to purple for "Rate Up Item"
     }
 
     historyElement.innerHTML += `<span style="color: ${itemColor}; margin: 3rem;">${item}: ${history[item]}</span> `;
@@ -134,98 +134,6 @@ function displayHistory() {
 const showHistoryButton = document.getElementById("showHistoryButton");
 showHistoryButton.addEventListener("click", toggleHistory);
 
-// Function to simulate pulling a single item and add 3 to totalCurrencySpent
-// function pullOnce() {
-//   // Increase the total currency spent by 3
-//   totalCurrencySpent += 3;
-
-//   // Display the total currency spent on the screen
-//   const currencySpentElement = document.getElementById("currencySpent");
-//   currencySpentElement.textContent = `Currency Spent: ${totalCurrencySpent}`;
-
-//   const pulledItem = pullFromGacha();
-
-//   // Display the result on the screen
-//   const resultElement = document.getElementById("result");
-
-//   if (pulledItem === "Common Item") {
-//     // If the pulled item is a "Common Item," display one of the items from the commonSummonPool
-//     const randomCommonItem =
-//       commonSummonPool[Math.floor(Math.random() * commonSummonPool.length)];
-//     // Apply the CSS class for common items to add a light gray border
-//     resultElement.innerHTML = `You obtained: <span class="common-item">${randomCommonItem}</span>`;
-//   } else if (pulledItem === "Rare Item") {
-//     // If the pulled item is a "Rare Item," display one of the items from the rareSummonPool
-//     const randomRareItem =
-//       rareSummonPool[Math.floor(Math.random() * rareSummonPool.length)];
-//     // Apply the CSS class for rare items to add a light blue border
-//     resultElement.innerHTML = `You obtained: <span class="rare-item">${randomRareItem}</span>`;
-//   } else if (pulledItem === "Legendary Item") {
-//     // If the pulled item is a "Legendary Item," display one of the items from the legendarySummonPool
-//     const randomLegendaryItem =
-//       legendarySummonPool[
-//         Math.floor(Math.random() * legendarySummonPool.length)
-//       ];
-//     // Apply the CSS class for legendary items to add a gold border
-//     resultElement.innerHTML = `You obtained: <span class="legendary-item">${randomLegendaryItem}</span>`;
-//   } else {
-//     // For other rarities, display the rarity name
-//     resultElement.textContent = `You obtained: ${pulledItem}`;
-//   }
-
-//   // Display the updated history
-//   displayHistory();
-// }
-
-// Function to simulate pulling 10 items
-// function pullTenTimes() {
-//   // Initialize an array to store the results of 10 pulls
-//   const results = [];
-
-//   for (let i = 0; i < 10; i++) {
-//     const pulledItem = pullFromGacha();
-//     results.push(pulledItem);
-//   }
-
-//   // Increase the total currency spent by 30 (10 pulls * 3 currency per pull)
-//   totalCurrencySpent += 30;
-
-//   // Display the total currency spent on the screen
-//   const currencySpentElement = document.getElementById("currencySpent");
-//   currencySpentElement.textContent = `Currency Spent: ${totalCurrencySpent}`;
-
-//   // Display the results on the screen
-//   const resultElement = document.getElementById("result");
-//   resultElement.innerHTML = "You obtained:<br>";
-
-//   for (const item of results) {
-//     if (item === "Common Item") {
-//       // If the item is a "Common Item," display one of the items from the commonSummonPool
-//       const randomCommonItem =
-//         commonSummonPool[Math.floor(Math.random() * commonSummonPool.length)];
-//       resultElement.innerHTML += `<span class="common-item">${randomCommonItem}</span> `;
-//     } else if (item === "Rare Item") {
-//       // If the item is a "Rare Item," display one of the items from the rareSummonPool
-//       const randomRareItem =
-//         rareSummonPool[Math.floor(Math.random() * rareSummonPool.length)];
-//       resultElement.innerHTML += `<span class="rare-item">${randomRareItem}</span> `;
-//     } else if (item === "Legendary Item") {
-//       // If the item is a "Legendary Item," display one of the items from the legendarySummonPool
-//       const randomLegendaryItem =
-//         legendarySummonPool[
-//           Math.floor(Math.random() * legendarySummonPool.length)
-//         ];
-//       resultElement.innerHTML += `<span class="legendary-item">${randomLegendaryItem}</span> `;
-//     } else {
-//       // For other rarities, display the rarity name
-//       resultElement.textContent += `${item} `;
-//     }
-//   }
-//   // Display the updated history
-//   displayHistory();
-// }
-
-// * NEW
 // Function to simulate pulling a single item and add 3 to totalCurrencySpent with a 5-second delay
 function pullOnceWithDelay() {
   // Disable the buttons during the 5-second delay
@@ -235,6 +143,10 @@ function pullOnceWithDelay() {
   // Show the loading image during the delay
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "block";
+
+  // Hides current result during the delay
+  const resultElement = document.getElementById("result");
+  resultElement.style.display = "none";
 
   // Increase the total currency spent by 3
   totalCurrencySpent += 3;
@@ -270,6 +182,11 @@ function pullOnceWithDelay() {
           Math.floor(Math.random() * legendarySummonPool.length)
         ];
       resultElement.innerHTML = `You obtained: <span class="legendary-item">${randomLegendaryItem}</span>`;
+    } else if (pulledItem === "Rate Up Item") {
+      // if the pulled item is a "Rate Up Item," display one of the items from the rateUpSummonPool
+      const randomRateUpItem =
+        rateUpSummonPool[Math.floor(Math.random() * rateUpSummonPool.length)];
+      resultElement.innerHTML = `You obtained: <span class="rate-up-item">${randomRateUpItem}</span>`;
     } else {
       // For other rarities, display the rarity name
       resultElement.textContent = `You obtained: ${pulledItem}`;
@@ -278,6 +195,9 @@ function pullOnceWithDelay() {
     // Re-enable the buttons after the delay
     gachaButton.disabled = false;
     pullTenButton.disabled = false;
+
+    // Show NEW results when delay ends
+    resultElement.style.display = "block";
 
     // Display the updated history
     displayHistory();
@@ -293,6 +213,10 @@ function pullTenTimesWithDelay() {
   // Show the loading image during the delay
   const loadingElement = document.getElementById("loading");
   loadingElement.style.display = "block";
+
+  // Hide current results during the delay
+  const resultElement = document.getElementById("result");
+  resultElement.style.display = "none";
 
   setTimeout(() => {
     // Hide the loading image when the delay ends
@@ -335,6 +259,11 @@ function pullTenTimesWithDelay() {
             Math.floor(Math.random() * legendarySummonPool.length)
           ];
         resultElement.innerHTML += `<span class="legendary-item">${randomLegendaryItem}</span> `;
+      } else if (item === "Rate Up Item") {
+        // if the pulled item is a "Rate Up Item," display one of the items from the rateUpSummonPool
+        const randomRateUpItem =
+          rateUpSummonPool[Math.floor(Math.random() * rateUpSummonPool.length)];
+        resultElement.innerHTML += `<span class="rate-up-item">${randomRateUpItem}</span>`;
       } else {
         // For other rarities, display the rarity name
         resultElement.textContent += `${item} `;
@@ -345,17 +274,17 @@ function pullTenTimesWithDelay() {
     gachaButton.disabled = false;
     pullTenButton.disabled = false;
 
+    // Show new results after the delay
+    resultElement.style.display = "block";
+
     // Display the updated history
     displayHistory();
   }, 5000); // 5-second delay
 }
 
-// * /NEW
 // Attach click event listeners to the gacha button and pull ten button
 const gachaButton = document.getElementById("gachaButton");
-// gachaButton.addEventListener("click", pullOnce);
 gachaButton.addEventListener("click", pullOnceWithDelay);
 
 const pullTenButton = document.getElementById("pullTenButton");
-// pullTenButton.addEventListener("click", pullTenTimes);
 pullTenButton.addEventListener("click", pullTenTimesWithDelay);
