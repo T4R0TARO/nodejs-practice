@@ -69,6 +69,6 @@
 9. Add middleware /w express to use display the static file of the frontend by moving them to the ./public folder
    - app.use(express.static('./public))
 10. We can create custom error handling w/ middleware and Refactor our code
-    - notFound
-    - errorHandling
-    - asyncWrapper
+    - notFound:404
+    - errorHandlingMiddleware: errorHandling refactor
+    - asyncWrapper: controllers refactor
