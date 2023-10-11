@@ -1,28 +1,28 @@
 // * CHALLENGE 1:  REVERSE A STRING
 // Return a string in reverse
 // ex. reverseString('hello') === 'olleh';
-console.log("reverseString()", reverseString("hello"));
+// console.log("reverseString()", reverseString("hello"));
 
 // * CHALLENGE 2: VALIDATE A PALINDROME
 // Return true if palindrome and false if not
 // ex. isPalindrome('racecar') === 'true', isPalindrome('hello') == false
 
-console.log("isPalindrome()", isPalindrome("racecar"), isPalindrome("hello"));
+// console.log("isPalindrome()", isPalindrome("racecar"), isPalindrome("hello"));
 
 // * CHALLENGE 3: REVERSE AN INTEGER
 // Return an integer in reverse
 // ex. reverseInt(521) === 125
 
-console.log("reverseInt()", reverseInt(12345));
+// console.log("reverseInt()", reverseInt(12345));
 
 // * CHALLENGE 4: CAPITALIZE LETTERS
 //Return a string with the first letter of every word capitalized
 // ex. capitalLettters('i love javascript') === 'I Love Javascript'
 
-console.log(
-  "capitalizeLetters()",
-  capitalizeLetters("ina of the mountain what is your wisdom")
-);
+// console.log(
+//   "capitalizeLetters()",
+//   capitalizeLetters("ina of the mountain what is your wisdom")
+// );
 
 // * CHALLENGE 5: MAX CHARACTER
 //Return the character that is most common in a string
@@ -120,7 +120,7 @@ console.log(
 // Remove from the array whatever is in the following arguments. Return the leftover values in an array
 // ex. seekAndDestroy([2, 3, 4, 6, 6, 'hello'], 2, 6) == [3, 4, 'hello']
 
-function seekAndDestroy(arr) {}
+// function seekAndDestroy(arr) {}
 
 // * CHALLENGE 4: SORT BY HEIGHT
 // Some people are standing in a row in a park. There are trees between them which cannot be moved. Your task is to rearrange the people by their heights in a non-descending order without moving the trees.
@@ -128,7 +128,7 @@ function seekAndDestroy(arr) {}
 // a = [-1, 150, 190, 170, -1, -1, 160, 180]
 // sortByHeight(a) == [-1, 150, 160, 170, -1, -1, 180, 190]
 
-function sortByHeight(a) {}
+// function sortByHeight(a) {}
 
 // * CHALLENGE 5: MISSING LETTERS
 // Find the missing letter in the passed letter range and return it. If all letters are present, return undefined
@@ -137,22 +137,110 @@ function sortByHeight(a) {}
 // missingLetters("abcdefghjklmno") == "i"
 // missingLetters("abcdefghijklmnopqrstuvwxyz") == undefined
 
-function missingLetters(str) {}
+// function missingLetters(str) {}
 
 // * CHALLENGE 6: EVEN & ODD SUMS
 // Take in an array and return an array of the sums of even and odd numbers
 // ex.
 // evenOddSums([50, 60, 60, 45, 71]) == [170, 116]
 
-function evenOddSums(arr) {}
+// function evenOddSums(arr) {}
 
 // * NEW CHALLENGE
-/* input: ?foo=hello&bar=world 
+/* input: '?foo=hello&bar=world&baz&foo=again' 
    output: {
-       foo: 'hello',
-       bar: 'world'
+       foo: ['hello', 'again'],
+       bar: 'world',
+       baz: 'true',
    }
 */
 
+function formatQueryStr(str) {
+  // strip off ?
+  const withoutAmpersand = str.slice(1);
+  // split on &
+  const keyValuePairs = withoutAmpersand.split("&");
+
+  const output = {};
+  // iterate through key value pairs, split on =
+  for (let pair of keyValuePairs) {
+    const splitPair = pair.split("=").map(decodeURIComponent); // change '%3F' to '?'
+    const key = splitPair[0];
+    // if (splitPair.length === 2) {
+
+    if (splitPair.length === 1) {
+      splitPair.push("true");
+    }
+
+    const val = splitPair[1];
+    if (!key) continue; // checks for empty string value
+
+    // check if output[s] is a string already
+    // if it's a string
+    if (output[key] === undefined) {
+      // if it's undefined
+      output[key] = val;
+      // put the string in an array, make it an array
+    } else if (typeof output[key] === "string") {
+      const newVal = [output[key]];
+      newVal.push(val);
+      output[key] = newVal;
+    } else {
+      // if it's an array
+      // push the new val into the array
+      output[key].push(val);
+    }
+    // } else {
+    //   output[key] = "true";
+    // }
+  }
+  return output;
+}
+
 console.log(formatQueryStr("?foo=hello&bar=world"));
-console.log(formatQueryStr("?"));
+console.log(formatQueryStr("?"), {});
+console.log(formatQueryStr("?foo=hello&bar=world&baz"));
+console.clear();
+console.log(formatQueryStr("?foo=hello&bar=world&baz&foo=again"));
+console.log(formatQueryStr("?foo=hello&foo"), {
+  foo: ["hello", "true"],
+});
+console.log(formatQueryStr("?qmark=%3F"), {
+  qmark: "?",
+});
+console.log("---");
+
+function makeQueryString(parsed) {
+  // queries=array
+  const queries = [];
+
+  function insert(k, v) {
+    if (v === "true") queries.push(k);
+    else queries.push(k + "=" + v);
+  }
+
+  // for key, value in parsed
+  for (let [key, val] of Object.entries(parsed)) {
+    if (typeof val === "string") {
+      // if (val === "true") queries.push(key);
+      // else queries.push(key + "=" + val);
+      insert(key, val);
+    } else {
+      for (let individualVal of val) {
+        // queries.push(key + "=" + individualVal);
+        insert(key, individualVal);
+      }
+    }
+  }
+  // if val is a string
+  // append key=val;
+  // else if it's an array
+  // for val in vals
+  // append key=val
+  return "?" + queries.join("&");
+}
+
+console.log(
+  makeQueryString(formatQueryStr("?foo=hello&bar=world&baz&foo=again")),
+  "?foo=hello&bar=world&baz&foo=again"
+);
