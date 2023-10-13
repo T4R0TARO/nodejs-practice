@@ -155,92 +155,141 @@
    }
 */
 
-function formatQueryStr(str) {
-  // strip off ?
-  const withoutAmpersand = str.slice(1);
-  // split on &
-  const keyValuePairs = withoutAmpersand.split("&");
+// function formatQueryStr(str) {
+//   // strip off ?
+//   const withoutAmpersand = str.slice(1);
+//   // split on &
+//   const keyValuePairs = withoutAmpersand.split("&");
 
-  const output = {};
-  // iterate through key value pairs, split on =
-  for (let pair of keyValuePairs) {
-    const splitPair = pair.split("=").map(decodeURIComponent); // change '%3F' to '?'
-    const key = splitPair[0];
-    // if (splitPair.length === 2) {
+//   const output = {};
+//   // iterate through key value pairs, split on =
+//   for (let pair of keyValuePairs) {
+//     const splitPair = pair.split("=").map(decodeURIComponent); // change '%3F' to '?'
+//     const key = splitPair[0];
+//     // if (splitPair.length === 2) {
 
-    if (splitPair.length === 1) {
-      splitPair.push("true");
+//     if (splitPair.length === 1) {
+//       splitPair.push("true");
+//     }
+
+//     const val = splitPair[1];
+//     if (!key) continue; // checks for empty string value
+
+//     // check if output[s] is a string already
+//     // if it's a string
+//     if (output[key] === undefined) {
+//       // if it's undefined
+//       output[key] = val;
+//       // put the string in an array, make it an array
+//     } else if (typeof output[key] === "string") {
+//       const newVal = [output[key]];
+//       newVal.push(val);
+//       output[key] = newVal;
+//     } else {
+//       // if it's an array
+//       // push the new val into the array
+//       output[key].push(val);
+//     }
+//     // } else {
+//     //   output[key] = "true";
+//     // }
+//   }
+//   return output;
+// }
+
+// console.log(formatQueryStr("?foo=hello&bar=world"));
+// console.log(formatQueryStr("?"), {});
+// console.log(formatQueryStr("?foo=hello&bar=world&baz"));
+// console.clear();
+// console.log(formatQueryStr("?foo=hello&bar=world&baz&foo=again"));
+// console.log(formatQueryStr("?foo=hello&foo"), {
+//   foo: ["hello", "true"],
+// });
+// console.log(formatQueryStr("?qmark=%3F"), {
+//   qmark: "?",
+// });
+// console.log("---");
+
+// function makeQueryString(parsed) {
+//   // queries=array
+//   const queries = [];
+
+//   function insert(k, v) {
+//     if (v === "true") queries.push(k);
+//     else queries.push(k + "=" + v);
+//   }
+
+//   // for key, value in parsed
+//   for (let [key, val] of Object.entries(parsed)) {
+//     if (typeof val === "string") {
+//       // if (val === "true") queries.push(key);
+//       // else queries.push(key + "=" + val);
+//       insert(key, val);
+//     } else {
+//       for (let individualVal of val) {
+//         // queries.push(key + "=" + individualVal);
+//         insert(key, individualVal);
+//       }
+//     }
+//   }
+//   // if val is a string
+//   // append key=val;
+//   // else if it's an array
+//   // for val in vals
+//   // append key=val
+//   return "?" + queries.join("&");
+// }
+
+// console.log(
+//   makeQueryString(formatQueryStr("?foo=hello&bar=world&baz&foo=again")),
+//   "?foo=hello&bar=world&baz&foo=again"
+// );
+
+// Time Complexity  0(n^2) because it uses nested loops
+// function twoSum(arr, sum) {
+//   // create a output arr
+//   const output = [];
+//   // loop through the items of an arr to access the items
+//   for (let i = 0; i < arr.length; i++) {
+//     // loop throuh the items of an arr to access the  second item
+//     for (let j = 1; j < arr.length; j++) {
+//       // if item i + j === sum
+//       if (arr[i] + arr[j] === sum) {
+//         // sum.push(i, j)
+//         output.push(arr[i], arr[j]);
+//       }
+//     }
+//   }
+//   // return output arr
+//   return output;
+// }
+
+function twoSum(arr, sum) {
+  // Create an empty set to store numbers from the array
+  const numSet = new Set();
+
+  // create an empty arr to store the pairs that sum up to the target sum
+  const output = [];
+
+  // Loop through the elements in the input array
+  for (let i = 0; i < arr.length; i++) {
+    // Calculate the complement needed to reach the target sum
+    const complement = sum - arr[i];
+    // Check if the complement is already in the set
+    if (numSet.has(complement)) {
+      // If it is, it means we found a pair that sums up to the target sum
+      // Add, the current number andd its complement to the output array
+      output.push(arr[i], complement);
     }
 
-    const val = splitPair[1];
-    if (!key) continue; // checks for empty string value
-
-    // check if output[s] is a string already
-    // if it's a string
-    if (output[key] === undefined) {
-      // if it's undefined
-      output[key] = val;
-      // put the string in an array, make it an array
-    } else if (typeof output[key] === "string") {
-      const newVal = [output[key]];
-      newVal.push(val);
-      output[key] = newVal;
-    } else {
-      // if it's an array
-      // push the new val into the array
-      output[key].push(val);
-    }
-    // } else {
-    //   output[key] = "true";
-    // }
+    // Add the current number to the set to remember it for future checks
+    numSet.add(arr[i]);
+    console.log(numSet);
   }
+
+  // Return the output array containing pairs that sum up to the target sum
   return output;
 }
 
-console.log(formatQueryStr("?foo=hello&bar=world"));
-console.log(formatQueryStr("?"), {});
-console.log(formatQueryStr("?foo=hello&bar=world&baz"));
-console.clear();
-console.log(formatQueryStr("?foo=hello&bar=world&baz&foo=again"));
-console.log(formatQueryStr("?foo=hello&foo"), {
-  foo: ["hello", "true"],
-});
-console.log(formatQueryStr("?qmark=%3F"), {
-  qmark: "?",
-});
-console.log("---");
-
-function makeQueryString(parsed) {
-  // queries=array
-  const queries = [];
-
-  function insert(k, v) {
-    if (v === "true") queries.push(k);
-    else queries.push(k + "=" + v);
-  }
-
-  // for key, value in parsed
-  for (let [key, val] of Object.entries(parsed)) {
-    if (typeof val === "string") {
-      // if (val === "true") queries.push(key);
-      // else queries.push(key + "=" + val);
-      insert(key, val);
-    } else {
-      for (let individualVal of val) {
-        // queries.push(key + "=" + individualVal);
-        insert(key, individualVal);
-      }
-    }
-  }
-  // if val is a string
-  // append key=val;
-  // else if it's an array
-  // for val in vals
-  // append key=val
-  return "?" + queries.join("&");
-}
-
-console.log(
-  makeQueryString(formatQueryStr("?foo=hello&bar=world&baz&foo=again")),
-  "?foo=hello&bar=world&baz&foo=again"
-);
+console.log("twoSum()", twoSum([2, 7, 11, 15], 9)); // Output: [2, 7]
+// console.log("twoSum()", twoSum([1, 2, 3, 4, 5], 55)); // Ouput: []
