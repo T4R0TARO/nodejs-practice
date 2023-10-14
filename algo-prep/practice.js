@@ -265,31 +265,29 @@
 // }
 
 function twoSum(arr, sum) {
-  // Create an empty set to store numbers from the array
-  const numSet = new Set();
+  // Search the arr if any 2 items equal to the sum
+  // No items can repeat
 
-  // create an empty arr to store the pairs that sum up to the target sum
-  const output = [];
-
-  // Loop through the elements in the input array
+  // Declare newSet and init a Set
+  const newSet = new Set();
+  // Declare output and init arr
+  let output = [];
+  // Loop through arr and have Set add arr[i]
   for (let i = 0; i < arr.length; i++) {
-    // Calculate the complement needed to reach the target sum
+    // Declare `complement` var  = arr[i]  - sum
     const complement = sum - arr[i];
-    // Check if the complement is already in the set
-    if (numSet.has(complement)) {
-      // If it is, it means we found a pair that sums up to the target sum
-      // Add, the current number andd its complement to the output array
-      output.push(arr[i], complement);
+
+    // if complement is in Set
+    if (newSet.has(complement)) {
+      // push item in output arr
+      output.push(complement, arr[i]);
     }
 
-    // Add the current number to the set to remember it for future checks
-    numSet.add(arr[i]);
-    console.log(numSet);
+    newSet.add(arr[i]);
   }
-
-  // Return the output array containing pairs that sum up to the target sum
+  // Return output arr
   return output;
 }
 
 console.log("twoSum()", twoSum([2, 7, 11, 15], 9)); // Output: [2, 7]
-// console.log("twoSum()", twoSum([1, 2, 3, 4, 5], 55)); // Ouput: []
+console.log("twoSum()", twoSum([1, 2, 3, 4, 5], 55)); // Ouput: []
