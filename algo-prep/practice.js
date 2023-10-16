@@ -264,28 +264,27 @@
 //   return output;
 // }
 
+// Create a function that takes an array of integers and an integer as arguments
+// The function should return if any two integers sum are equal to the integer argument
+// No to items can be used twice and no duplicates can be used
 function twoSum(arr, sum) {
-  // Search the arr if any 2 items equal to the sum
-  // No items can repeat
-
-  // Declare newSet and init a Set
+  //  Init a Set to format out duplicates
   const newSet = new Set();
-  // Declare output and init arr
-  let output = [];
-  // Loop through arr and have Set add arr[i]
+  //  Init output array
+  const output = [];
+  //  Loop through arr
   for (let i = 0; i < arr.length; i++) {
-    // Declare `complement` var  = arr[i]  - sum
+    //  Init var `complement` = arr[i] - sum;
     const complement = sum - arr[i];
-
-    // if complement is in Set
+    //  If Set has complement
     if (newSet.has(complement)) {
-      // push item in output arr
+      //  ouput arr.push(arr[i])
       output.push(complement, arr[i]);
     }
-
+    //  Set add arr[i] copies items of arr
     newSet.add(arr[i]);
   }
-  // Return output arr
+  //  Return output arr
   return output;
 }
 
