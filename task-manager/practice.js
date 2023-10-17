@@ -1,10 +1,10 @@
-class CustomAPIError extends Error {
-  constructor(message, statusCode) {
-    super(message);
-    this.statusCode = statusCode;
-  }
-}
+const mongoose = require("mongoose");
 
-const error = new CustomAPIError(`The route was not found`, 404);
+const connectDB = (url) => {
+  return mongoose
+    .connect(url)
+    .then(() => console.log("Connect DB..."))
+    .catch((err) => console.log(err));
+};
 
-console.log(error);
+module.exports(connectDB);
