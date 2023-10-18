@@ -1,10 +1,12 @@
-const mongoose = require("mongoose");
+class CustomAPIError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.statusCode;
+  }
+}
 
-const connectDB = (url) => {
-  return mongoose
-    .connect(url)
-    .then(() => console.log("Connect DB..."))
-    .catch((err) => console.log(err));
+const createCustomError = (msg, statusCode) => {
+  return new CustomAPIError(msg, statusCode);
 };
 
-module.exports(connectDB);
+module.exports = { createCustomError, CustomAPIError };
