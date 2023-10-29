@@ -8,7 +8,11 @@ const getAllProductsStatic = async (req, res) => {
 
   // Task: Sort Feature
   // Sort through json data by name and price
-  const products = await Product.find({}).sort("-name price"); // sort by name and price
+  const products = await Product.find({})
+    .sort("name") // sort by name
+    .select("name price"); // select name and price
+  // .limit(10) // limit items to 10
+  // .skip(5) // skip 5 items from item list
   res.status(200).json({ products, nbHits: products.length });
 };
 
@@ -16,7 +20,7 @@ const getAllProductsStatic = async (req, res) => {
 // Sort through json data based on query
 // localhost:3000/api/v1/products?sort=name,price
 const getAllProducts = async (req, res) => {
-  const { featured, company, name, sort } = req.query; // destructure `sort` from query string
+  const { featured, company, name, sort, fields } = req.query; // destructure `sort` from query string
   const queryObject = {};
 
   if (featured) {
@@ -41,6 +45,19 @@ const getAllProducts = async (req, res) => {
   } else {
     result = result.sort("createdAt"); // sort json data w/ "createdAt"
   }
+
+  // if `fields` is in the query
+  if (fields) {
+    const fieldsList = fields.split(",").join(" ");
+    result = result.select(fieldsList);
+  }
+
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
+  result = result.skip(skip).limit(limit);
+
   const products = await result; // after conditional await results
   res.status(200).json({ products, nbHits: products.length });
 };
