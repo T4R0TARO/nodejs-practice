@@ -32,17 +32,16 @@ const login = async (req, res) => {
   //   res.send("Fake Login/Register/Signup Route");
   res.status(200).json({ msg: "user created", token });
 };
-
 const dashboard = async (req, res) => {
   //   console.log(req.headers);
   const authHeader = req.headers.authorization;
-
+  // console.log(authHeader);
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     throw new CustomAPIError("No token provided", 401);
   }
 
   const token = authHeader.split(" ")[1];
-  //   console.log(token);
+  // console.log(token);
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
