@@ -9,7 +9,7 @@ const CustomAPIError = require("../errors/custom-error");
 
 const login = async (req, res) => {
   const { username, password } = req.body;
-
+  console.log(username, password);
   // mongoose validation
   // Joi
   // check in the controller
@@ -28,8 +28,6 @@ const login = async (req, res) => {
     expiresIn: "30d",
   });
 
-  console.log(username, password);
-  //   res.send("Fake Login/Register/Signup Route");
   res.status(200).json({ msg: "user created", token });
 };
 const dashboard = async (req, res) => {
