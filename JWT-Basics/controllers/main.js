@@ -9,7 +9,6 @@ const CustomAPIError = require("../errors/custom-error");
 
 const login = async (req, res) => {
   const { username, password } = req.body;
-  console.log(username, password);
   // mongoose validation
   // Joi
   // check in the controller
@@ -23,7 +22,8 @@ const login = async (req, res) => {
   const id = new Date().getDate();
 
   // try to keep payload small, better experience for user
-  // just for demo, in production use long, complex and unguessable string value!!!
+  // just for demo, in production use long, complex and unguessable string value for JWT_SECRET!!!
+  // create a encrypted token with payload of username and id
   const token = jwt.sign({ id, username }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
@@ -31,27 +31,14 @@ const login = async (req, res) => {
   res.status(200).json({ msg: "user created", token });
 };
 const dashboard = async (req, res) => {
-  //   console.log(req.headers);
-  const authHeader = req.headers.authorization;
-  // console.log(authHeader);
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    throw new CustomAPIError("No token provided", 401);
-  }
+  console.log(req.user);
 
-  const token = authHeader.split(" ")[1];
-  // console.log(token);
+  const luckyNumber = Math.floor(Math.random() * 100);
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
-    const luckyNumber = Math.floor(Math.random() * 100);
-    res.status(200).json({
-      msg: `Hello, ${decoded.username}`,
-      secret: `Here is your authorized data, your lucky number is ${luckyNumber}`,
-    });
-  } catch (error) {
-    throw new CustomAPIError("Not authorized to access this route", 401);
-  }
+  res.status(200).json({
+    msg: `Hello, ${req.user.username}`,
+    secret: `Here is your authorized data, your lucky number is ${luckyNumber}`,
+  });
 };
 
 module.exports = {
