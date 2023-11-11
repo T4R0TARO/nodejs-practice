@@ -158,3 +158,93 @@ const dashboard = async (req, res) => {
   }
 };
 ```
+
+### REFACTOR dashboard
+
+- REFACTOR DASHBOARD TO DYNAMICALLY DECODE TOKEN
+
+```js
+// controllers/main.js REFACTORED
+const dashboard = async (req, res) => {
+  /* Move to authenticationMiddleware()
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      throw new CustomAPIError("No token provided", 401);
+    }
+    const token = authHeader.split(" ")[1];
+  */
+
+  /* Move to authenticationMiddleware()
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
+      throw new CustomAPIError("Not authorized to acess this route", 401);
+    }
+  */
+
+  const luckyNumber = Math.floor(Math.random() * 100);
+
+  res.status(200).json({
+    msg: `Hello, ${req.user.username}`,
+    secret: `Here is your authorized data, your lucky number is ${luckyNumber}`,
+  });
+};
+```
+
+### create authenticationMiddleware
+
+- Create authenticationMiddleware to dynamically decode token
+
+```js
+// middleware/auth.js
+const jwt = require("jsonwebtoken");
+const CustomAPIError = require("../errors");
+
+const authenticationMiddleware = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    throw new CustomAPIError("No token provided", 401);
+  }
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // destructure token values
+    const { id, username } = decoded;
+    // set req.user values
+    req.user = { id, username };
+    next(); // run dashboard()
+  } catch (error) {
+    throw new CustomAPIError("Not authorized to acess this route", 401);
+  }
+};
+
+module.exports = authenticationMiddleware;
+```
+
+### Set authMiddleware in route /dashboard
+
+- Import authMiddleware
+- Set authMiddleware in route "/dashboard"
+- authMiddleware will run before dashboard and if succesful
+- run dashboard else run Error
+
+```js
+// /routes/main.js
+const express = require("express");
+const router = express.Router();
+
+const { login, dashboard } = require("../controllers/main");
+
+// import authMiddleware
+const authMiddleware = require("../middleware/auth");
+
+// when accessing route /dashboard
+// run authMiddleware, next()
+// run dashboard
+// OR run ERROR
+router.route("/dashboard").get(authMiddleware, dashboard);
+router.route("/login").post(login);
+```
+
+### REFACTOR error handlers
