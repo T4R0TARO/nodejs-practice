@@ -162,11 +162,18 @@ const dashboard = async (req, res) => {
 ### REFACTOR dashboard
 
 - REFACTOR DASHBOARD TO DYNAMICALLY DECODE TOKEN
+- In the `dashboard()`, we have a feature that access our headers.authorization
+- `authHead4er` header.authorization holds the value of your encrypted token data string
+- we then have a try/catch that decodes the token with the encrypted data or throws a custom error 401
+- Move this feature to a seperate middleware function `authenticationMiddleware()` in auth.js
+- `dashboard()` is refactored and simplified to only have a RNG generator and a success response status 200
+- The success status 200 will display the RNG number and display the the username value
+  How will we access the username value when we moved the encrpted token data to the function `authenticationMiddleware()`?
 
 ```js
 // controllers/main.js REFACTORED
 const dashboard = async (req, res) => {
-  /* Move to authenticationMiddleware()
+  /* Move to ➡ authenticationMiddleware()
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       throw new CustomAPIError("No token provided", 401);
@@ -174,7 +181,7 @@ const dashboard = async (req, res) => {
     const token = authHeader.split(" ")[1];
   */
 
-  /* Move to authenticationMiddleware()
+  /* Move to ➡ authenticationMiddleware()
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch (error) {
@@ -194,6 +201,14 @@ const dashboard = async (req, res) => {
 ### create authenticationMiddleware
 
 - Create authenticationMiddleware to dynamically decode token
+- Move the features from `dashboard()` to `authenticationMiddleware()`
+- We want to add `next()` as a param so that if the function is successful we will run the next function `dashboard()` next
+- Once we check if headers.authroization has a proper value we will decode the token in our try/catch or throw an error
+- We will also deconstruct the data from the decoded token `id` and `username`
+- And `req.user` to hold the values of `id` and `username` so that we can request theses values in the `dashboard()`
+- So when we run the success status 200 we can access the `req.user.username` to display the username value from the token
+
+So now I need this `authenticationMiddle()` to run first and if the token is successfull decoded run the `next()` function `dashboard()`.
 
 ```js
 // middleware/auth.js
@@ -248,3 +263,142 @@ router.route("/login").post(login);
 ```
 
 ### REFACTOR error handlers
+
+We have a custom error class that creates custom error object that displays an error message and a status code
+
+```js
+class CustomAPIError extends Error {
+  constructor(message) {
+    super(message);
+    this.statusCode = statusCode;
+  }
+}
+
+module.exports = CustomAPIError;
+```
+
+- We can refactor this code so that we have a more implicity custom error handling.
+- For example instead of writing status code 400, We can throw a BadRequestError with a message so the user knows its a bad request
+- We wil create new error handlers classes that are more implicity by name
+- apply the npm package `http-status-codes` to use the name of the status code instead of the number
+- then we will refactor our existing code to uses the new error handlers
+
+In /errors create files for new error handlers
+
+- badrequest.js -> bad request error handler
+- unauthenticated.js -> unauthenticated error handler
+- index.js - export error handlers
+
+Exports the error handlers in one file
+
+```js
+// /errors/index.js
+
+const CustomAPIError = require("./custom-error");
+const BadRequestError = require("./bad-request");
+const UnauthenticatedError = require("./unauthenticated");
+
+module.exports = {
+  CustomAPIError,
+  BadRequestError,
+  UnauthenticatedError,
+};
+```
+
+Refactor CustomAPIError
+
+```js
+class CustomAPIError extends Error {
+  constructor(message) {
+    super(message);
+  }
+}
+
+module.exports = CustomAPIError;
+```
+
+Create BadRequest class
+
+```js
+const CustomAPIError = require("./custom-error");
+const { StatusCode } = require("http-status-codes");
+
+class BadRequest extends CustomAPIError {
+  constructor(message) {
+    super(message);
+    // this.statusCode = 400;
+    this.statusCode = StatusCode.BAD_REQUEST;
+  }
+}
+```
+
+Create UnauthenticatedError
+
+```js
+const CustomAPIError = require("./custom-error");
+const { StatusCode } = require("http-status-codes");
+
+class UnauthenticatedError extends CustomAPIError {
+  constructor(message) {
+    super(message);
+
+    this.statusCode = StatusCodes.UNAUTHORIZED;
+  }
+}
+
+module.exports = UnauthenticatedError;
+```
+
+Now that we have new error handlers that are more implicit. We can refactor our existing code and implement these new error handlers.
+
+- Refactor auth.js error handlers
+- Refactor /controllers.main.js error handlers
+- Refactor /middleware/error-handlers
+
+```js
+// auth.js
+
+const jwt = require("jsonwebtoken");
+const { UnauthenticatedError } = require("../errors");
+
+const authenticationMiddleware = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    throw new UnauthenticatedError("Not authorized to access this route");
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { id, username } = decoded;
+    req.user = { id, username };
+    next();
+  } catch (error) {
+    throw new UnauthenticatedError("Not authorized to access this route");
+  }
+};
+
+module.exports = authenticationMiddleware;
+```
+
+```js
+// controllers/main.js
+
+const jwt = require(jsonwebtoken);
+const { BadRequestError } = require("../errors");
+
+const login = async (req, res) => {
+
+}
+
+const dashboard = async (req, res) => {
+
+}
+
+module.exports {
+  login,
+  dashboard,
+}
+```
