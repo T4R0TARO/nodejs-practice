@@ -290,6 +290,7 @@ In /errors create files for new error handlers
 - index.js - export error handlers
 
 Exports the error handlers in one file
+Because we have multiple custom error files we can allocate all the errors into one index.js file and export the file so we can access the custom errors in one place.
 
 ```js
 // /errors/index.js
@@ -307,6 +308,10 @@ module.exports = {
 
 Refactor CustomAPIError
 
+- Removed `this.statusCode = statusCode` from the class CustomAPIError
+- We will be using `http-status-code` for more specified errors
+- We can still use class CustomAPIError for custom error messages
+
 ```js
 class CustomAPIError extends Error {
   constructor(message) {
@@ -317,7 +322,27 @@ class CustomAPIError extends Error {
 module.exports = CustomAPIError;
 ```
 
+Refactor error-handler.js
+
+```js
+const { CustomAPIError } = require("../errors");
+const { StatusCodes } = require("https-status-codes");
+
+const errorHandlerMiddleware = (err, req, res, next) => {
+  if (err instanceof CustomAPIError) {
+    return res.status(err.statusCode).json({ msg: err.message });
+  }
+  return res
+    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+    .send("Something went wrong try again later");
+};
+
+module.exports = errorHandleMiddleware;
+```
+
 Create BadRequest class
+
+- Implement `StatusCode` in the class
 
 ```js
 const CustomAPIError = require("./custom-error");
@@ -334,6 +359,8 @@ class BadRequest extends CustomAPIError {
 
 Create UnauthenticatedError
 
+- Implement `StatusCode` in the class
+
 ```js
 const CustomAPIError = require("./custom-error");
 const { StatusCode } = require("http-status-codes");
@@ -341,7 +368,6 @@ const { StatusCode } = require("http-status-codes");
 class UnauthenticatedError extends CustomAPIError {
   constructor(message) {
     super(message);
-
     this.statusCode = StatusCodes.UNAUTHORIZED;
   }
 }
@@ -354,6 +380,7 @@ Now that we have new error handlers that are more implicit. We can refactor our 
 - Refactor auth.js error handlers
 - Refactor /controllers.main.js error handlers
 - Refactor /middleware/error-handlers
+- Import `UnauthenticatedError` and Refactor to use class UnauthenticatedError
 
 ```js
 // auth.js
@@ -383,6 +410,8 @@ const authenticationMiddleware = async (req, res, next) => {
 module.exports = authenticationMiddleware;
 ```
 
+Refactor and implement BadRequestError object
+
 ```js
 // controllers/main.js
 
@@ -390,10 +419,26 @@ const jwt = require(jsonwebtoken);
 const { BadRequestError } = require("../errors");
 
 const login = async (req, res) => {
+  const {username, password} = req.body;
 
+  if(!username || !password){
+    throw new BadRequestError("Please provide email and password")
+  }
+
+  const id = new Date().getDate();
+
+  const tokem = jwt.sign({id, username}, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  })
+  res.status(200).json({msg: "user created", token})
 }
 
 const dashboard = async (req, res) => {
+  const luckyNumber = Math.floor(Math.random() * 100);
+  res.status(200).json({
+    msg: `Hello, ${req.user.username}`,
+    secret: `Here is your authorized data, your lucky number is ${luckyNumber}`
+  })
 
 }
 
