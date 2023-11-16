@@ -451,23 +451,32 @@ module.exports {
 ### Practice
 
 ```js
+// controller features
 const jwt = require("jsonwebtokens");
-const CustomAPIError = require("../errors/custom-errors");
+const CustomAPIError = require("../errors/custom-error");
 
 const login = async (req, res) => {
-  // if username || password does NOT have a value
-  // throw Custom Error
+  // Error handler
+  // req for username and password value
+  // if username OR password do NOT have a value
+  // throw new Error
+
+  const { username, password } = req.body;
   if (!username || !password) {
-    throw new CustomAPIError("Please provide a username and password", 400);
+    throw new CustomAPIError("Please provide a username and a password", 400);
   }
 
-  // init demo id
+  // Create token and sign token
+  // Init token ID (usually provided by DB but this is demo)
   const id = new Date().getDate();
-  // init jwt and sign
-  // have token contain username and id
   const token = jwt.sign({ id, username }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
+
   res.status(200).json({ msg: "user created", token });
+};
+
+const dashboard = async (req, res) => {
+  res.status(200).json({ msg: "dashboard testing..." });
 };
 ```
