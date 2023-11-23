@@ -6,43 +6,45 @@ REGEX EMAIL VALIDATION
 - Set up auth controller
 
 ```js
-const User = require("../models/User");
-const { StatusCodes } = require("http-status-codes");
+const User = require("./models/User");
+const { StatusCodes } = require("https-status-codes");
 
+const register = async (req, res) => {
+  // res.send("register testing...");
+  const user = await User.create({ ...req.body });
+  res.status(StatusCodes.CREATED).json({ user });
+};
 const login = async (req, res) => {
   res.send("login testing...");
 };
 
-const register = async (req, res) => {
-  const user = await User.create({ ...req.body });
-  res.status(StatusCodes.CREATED).json({ user });
-  //   res.send("register testing...");
+module.exports = {
+  register,
+  login,
 };
-
-module.exports = { login, register };
 ```
 
 - Set up jobs controller
 
 ```js
 const getAllJobs = async (req, res) => {
-  res.send("get all jobs");
+  res.send("get all jobs...");
 };
 
 const getJob = async (req, res) => {
-  res.send("get job");
+  res.send("get job...");
 };
 
 const createJob = async (req, res) => {
-  res.send("create job");
+  res.send("create job...");
 };
 
 const updateJob = async (req, res) => {
-  res.send("update job");
+  res.send("update job...");
 };
 
 const deleteJob = async (req, res) => {
-  res.send("delete job");
+  res.send("delete job...");
 };
 
 module.exports = {
@@ -60,7 +62,7 @@ module.exports = {
 const express = require("express");
 const router = express.Router();
 
-const { login, register } = require("../controllers/auth");
+const { login, register } = require("./controllers/auth");
 
 router.post("/register", register);
 router.post("/login", login);
@@ -80,9 +82,9 @@ const {
   createJob,
   updateJob,
   deleteJob,
-} = require("../controllers/auth");
+} = require("./controllers/jobs");
 
-router.route("/").get(getAllJobs).post(createJob);
+router.route("/").post(createJob).get(getAllJobs);
 router.route("/:id").get(getJob).patch(updateJob).delete(deleteJob);
 
 module.exports = router;
@@ -96,34 +98,35 @@ require("express-async-errors");
 const express = require("express");
 const app = express();
 
-// connectDB
-const connectDB = require("../db/connect");
+const connectDB = require("./db/connect");
 
-// middleware
-const notFoundMiddleware = require("../middleware/not-found");
-const errorHandlerMiddleware = require("../middleware/error-handler");
+const authRouter = require("./routes/auth");
+const jobsRouter = require("./routes/jobs");
 
-// routes
-const authRouter = require("../routes/auth");
-const jobsRouter = require("../routes/jobs");
-
+const notFoundMiddleware = require("./middleware/not-found");
+const errorHandlerMiddleware = require("./middleware/error-handler");
 app.use(express.json());
 
+// Routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/jobs", jobsRouter);
 
-app.use("/", (req, res) => {
-  res.send("jobs api...");
-});
-
+// Error Handler
 app.use(notFoundMiddleware);
-app.use(errorHanlderMiddlerware);
+app.use(errorHandlerMiddleware);
+
+// app.get("/", (req, res) => {
+//   res.send("jobs api...");
+// });
 
 const port = process.env.PORT || 3000;
+
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
-    app.listen(port, () => console.log(`Server listening on port ${port}...`));
+    app.listen(port, () =>
+      console.log(`Server is listening on port ${port}...`)
+    );
   } catch (error) {
     console.log(error);
   }
@@ -136,6 +139,7 @@ start();
 
 ```js
 const mongoose = require("mongoose");
+const { StatusCodes } = require("http-status-codes");
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -149,6 +153,7 @@ const UserSchema = new mongoose.Schema({
     require: [true, "Please provide email"],
     match: [
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)\*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      "Please provide valid email",
     ],
     unique: true,
   },
