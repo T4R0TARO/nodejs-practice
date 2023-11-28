@@ -7,13 +7,14 @@ REGEX EMAIL VALIDATION
 
 ```js
 const User = require("./models/User");
-const { StatusCodes } = require("https-status-codes");
+const { StatusCodes } = require("http-status-codes");
 
 const register = async (req, res) => {
-  // res.send("register testing...");
+  //   res.send("register testing...");
   const user = await User.create({ ...req.body });
-  res.status(StatusCodes.CREATED).json({ user });
+  res.status(StatusCodes.CREATED).json(user);
 };
+
 const login = async (req, res) => {
   res.send("login testing...");
 };
@@ -62,8 +63,7 @@ module.exports = {
 const express = require("express");
 const router = express.Router();
 
-const { login, register } = require("./controllers/auth");
-
+// why post? we want to `post` data to the db
 router.post("/register", register);
 router.post("/login", login);
 
@@ -84,7 +84,7 @@ const {
   deleteJob,
 } = require("./controllers/jobs");
 
-router.route("/").post(createJob).get(getAllJobs);
+router.route("/").get(getAllJobs).post(createJob);
 router.route("/:id").get(getJob).patch(updateJob).delete(deleteJob);
 
 module.exports = router;
@@ -98,33 +98,34 @@ require("express-async-errors");
 const express = require("express");
 const app = express();
 
+// connectDB
 const connectDB = require("./db/connect");
+// Error Handlers
+const notFoundMiddleware = require("./middleware/not-found")
+const errorHandlerMiddleware = require("./middleware/error-handler")
 
+// Routes
 const authRouter = require("./routes/auth");
 const jobsRouter = require("./routes/jobs");
 
-const notFoundMiddleware = require("./middleware/not-found");
-const errorHandlerMiddleware = require("./middleware/error-handler");
 app.use(express.json());
 
-// Routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/jobs", jobsRouter);
 
-// Error Handler
-app.use(notFoundMiddleware);
-app.use(errorHandlerMiddleware);
+app.use(notFoundMiddleware)
+app.use(errorHandlerMiddleware)
 
 // app.get("/", (req, res) => {
-//   res.send("jobs api...");
-// });
+//     res.send("jobs api...")
+// })
 
 const port = process.env.PORT || 3000;
 
 const start = async () => {
   try {
-    await connectDB(process.env.MONGO_URI);
     app.listen(port, () =>
+      await connectDB = process.env.MONGO_URI;
       console.log(`Server is listening on port ${port}...`)
     );
   } catch (error) {
@@ -132,14 +133,13 @@ const start = async () => {
   }
 };
 
-start();
+start()
 ```
 
 - define User schema
 
 ```js
 const mongoose = require("mongoose");
-const { StatusCodes } = require("http-status-codes");
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -161,7 +161,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     require: [true, "Please provide password"],
     minlength: 6,
-    maxlength: 12,
+    maxlength: 13,
   },
 });
 
