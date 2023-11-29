@@ -8,9 +8,26 @@ REGEX EMAIL VALIDATION
 ```js
 const User = require("./models/User");
 const { StatusCodes } = require("http-status-codes");
+const { BadRequestError } = require("../errors");
+const bcrypt = require("bcrypths");
 
 const register = async (req, res) => {
-  //   res.send("register testing...");
+  const { name, email, password } = req.body;
+
+  /* hash a password
+   * generate random byts `bcrypt.genSalt(10)`
+   * hash password `bcrypt.hash(password, salt)`
+   * createa tempUser that inlcudes the hashedPassword
+   * Create new User obj with the values of the tempUser
+   * Now we should have a new user obj created with the values of the schema and an hashed password
+   ** REFACTOR and move feature to middleware in UserSchema
+   */
+
+  // const salt = await bcyrpt.genSalt(10);
+  // const hashedPassword = await bcrypt.hash(password, salt);
+  // const tempUser = { name, email, password: hashedPassword };
+  // const user = await User.create({ ...tempUser });
+
   const user = await User.create({ ...req.body });
   res.status(StatusCodes.CREATED).json(user);
 };
@@ -161,8 +178,19 @@ const UserSchema = new mongoose.Schema({
     type: String,
     require: [true, "Please provide password"],
     minlength: 6,
-    maxlength: 13,
+    // maxlength: 13,
   },
+});
+
+/*
+  UserSchema.pre("save", async function(){
+      // hash password
+  })
+*/
+
+UserSchema.pre("save", async function () {
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
 module.exports = mongoose.model("User", UserSchema);
