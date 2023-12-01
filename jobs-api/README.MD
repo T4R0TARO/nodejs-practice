@@ -9,44 +9,17 @@ REGEX EMAIL VALIDATION
 const User = require("./models/User");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError } = require("../errors");
-const bcrypt = require("bcrypths");
+const jwt = require("jsonwebtokens");
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;
-
-  /* hash a password
-   * generate random byts `bcrypt.genSalt(10)`
-   * hash password `bcrypt.hash(password, salt)`
-   * createa tempUser that inlcudes the hashedPassword
-   * Create new User obj with the values of the tempUser
-   * Now we should have a new user obj created with the values of the schema and an hashed password
-   ** REFACTOR and move feature to middleware in UserSchema
-   */
-
-  // const salt = await bcrypt.genSalt(10);
-  // const hashedPassword = await bcrypt.hash(password, salt);
-  // const tempUser = { name, email, password: hashedPassword };
-  // const user = await User.create({ ...tempUser });
-
-  /** implement jsonwebtokens w/ the UserSchema
-   *  create a token that and sign
-   *  token should have...
-   *  user id
-   *  user name
-   *  process.env.JWT_SECRET but for now "jwtSecret"
-   *  option expireIn: "30d"
-   *  json({ user: {name: user.name}, token})
-   *  BUT we can clean up the code and move this feature to the UserSchema
-   * So when we create a new User it will also include the include this feature
-   */
-
   const user = await User.create({ ...req.body });
-  const token = jwt.sign({ userID: user._id, name: user.name }, "jwtSecret", {
-    expiresIn: "30d",
-  });
 
-  // res.status(StatusCodes.CREATED).json(user);
-  res.status(StatusCodes.CREATED).json({ user: { name: user.name } }, token);
+  // const token = jwt.sign({ userId: user._id, name: user.name }, "jwtSecret", {
+  //   expiresIn: "30d",
+  // });
+  const token = user.createJWT();
+  res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token });
 };
 
 const login = async (req, res) => {
@@ -199,28 +172,18 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-/*
-  UserSchema.pre("save", async function(){
-      // hash password
-  })
-*/
-
-UserSchema.pre("save", async function (next) {
+// hashed password feature
+UserSchema.pre("save", async function () {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
-  next();
 });
 
-/* We can move the jwt feature to the UserSchema
- * using the `Schema.methods()` helper
- * we can name it `createJWT`
- * we will call `createJWT` when we create a token
- * `createJWT` should  sign the token
- *  have userID
- *  have name
- *  process.env.JWT_SECRET but for now "jwtSecret"
- *  options expiresIn: "30d"
- */
+// sign token /w option expires in "30d"
+UserSchema.methods.createJWT = function () {
+  return jwt.sign({ userId: this._id, name: this.name }, "jwtSecret", {
+    expiresIn: "30d",
+  });
+};
 
 module.exports = mongoose.model("User", UserSchema);
 ```
