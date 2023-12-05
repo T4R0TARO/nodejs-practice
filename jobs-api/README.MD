@@ -13,20 +13,21 @@ const jwt = require("jsonwebtokens");
 
 const register = async (req, res) => {
   //   res.send("register testing...");
-  // hash password
-  //   const { name, email, password } = req.body;
-  //   const salt = await bcrypt.genSalt(10);
-  //   const hashedPassword = await bcrypt.hash(password, salt);
-  //   const tempUser = { name, email, password: hashedPassword };
+
+  // hash password // REFACTORED // moved to UserSchema
+  // const { name, email, password } = req.body;
+  // const salt = await bcrypt.genSalt(10);
+  // const hashedPassword = await bcrypt.hash(password, salt);
+  // const tempUser = { name, email, password: hashedPassword };
+  // const user = await User.create({ ...tempUser });
 
   const user = await User.create({ ...req.body });
-
-  //   const token = jwt.sign({ userId: user._id, name: user.name }, "jwtSecret", {
-  //     expiresIn: "30d",
-  //   });
-
+  // sign token // REFACTORED // moved to UserSchema
+  // const token = jwt.sign({ userId: user._id, name: user.name }, "jwtSecret", {
+  //   expiresId: "30d",
+  // });
   const token = user.createJWT();
-  res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token });
+  res.status(StatusCodes.CREATED).json({ user: { name: user.name, token } });
 };
 
 const login = (req, res) => {
@@ -183,14 +184,15 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-UserSchema.pre("save", async function(){
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password,salt);
+UserSchema.pre("save", async function (){
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypy.hash(this.password, salt)
 })
 
-UserSchema.methods.createJWT = function (){
-    return jwt.sign({userId: this._id, name: this.name}, "jwtSecret", {expiresIn: "30d"})
+UserSchema.methods.createJWT = async funciton (){
+  return jwt.sign({userId: this._id, name: this.name}, "jwtSecret", {expiresId: "30d"})
 }
+
 
 module.exports = mongoose.model("User", UserSchema);
 ```
