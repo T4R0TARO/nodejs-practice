@@ -31,7 +31,34 @@ const register = async (req, res) => {
 };
 
 const login = (req, res) => {
-  res.send("login testing...");
+  // res.send("login testing...");
+  /*
+    * get values for `email` and `password`
+    * if `email` OF `password` do NOT have values throw Error
+    * find user w/ `findOne()` with the value `email`
+    * if `user` does not have a value Error throw Error
+    * create user token
+    * response success status code of user object and token
+  */
+
+  const {email, password} = req.body;
+  if(!email || !password){
+    throw new BadRequestError("Please provide email and password")
+  }
+  const user = await User.findOne({email});
+  if(!user){
+    throw new UnauthenticatedError("Invalid Credentials")
+  }
+
+  // ✨ compare password else throw Error
+  const isPasswordMatch = user.comparePassword(password);
+  if(isPasswordMatch){
+    throw new UnauthenticatedError("Invalid Credentials")
+  }
+
+
+  const token = user.createJWT()
+  res.status(StatusCodes.OK).json({user:{name:user.name, token}})
 };
 
 module.exports = {
@@ -190,9 +217,44 @@ UserSchema.pre("save", async function (){
 })
 
 UserSchema.methods.createJWT = async funciton (){
-  return jwt.sign({userId: this._id, name: this.name}, "jwtSecret", {expiresId: "30d"})
+  // REFACTORED
+  // return jwt.sign({userId: this._id, name: this.name}, "jwtSecret", {expiresId: "30d"})
+
+  return jwt.sign({userId: this._id, name: this.name}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_LIFETIME,})
 }
 
+//✨ comparePassword method
+// compare passwords to check for match
+//  bycrypt.compare() user.password with this.password
+UserSchema.methods.comparePassword = async function (candidatePassword){
+  const isMatch = await bycrypt.compare(candidatePassword, this.password)
+  return isMatch
+}
 
 module.exports = mongoose.model("User", UserSchema);
+```
+
+- ✨ middleware/authentication.js
+
+```js
+const User = require("./model/User");
+const jwt = require("jsonwbetoken");
+const { UnauthenticatedError } = require("../errors");
+
+const auth = async (req, res, next) => {
+  // check header
+  const authHeader = req.header.authorization;
+
+  if (!authHeader || !authHeader.startsWith(" Bearer")) {
+    throw new UnauthenticatedError("Authentication invalid");
+  }
+  const token = authHeader.split(" ")[1];
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    // attach the user to the job routes
+    req.user = { userId: payload.userId, name: payload.name };
+  } catch (error) {
+    throw new UnauthenticatedError("Authentication invalid");
+  }
+};
 ```
