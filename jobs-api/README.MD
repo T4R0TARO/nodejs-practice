@@ -51,11 +51,10 @@ const login = (req, res) => {
   }
 
   // ✨ compare password else throw Error
-  const isPasswordMatch = user.comparePassword(password);
-  if(isPasswordMatch){
-    throw new UnauthenticatedError("Invalid Credentials")
+  const isPasswordMatch = await user.comparePassword(password);
+  if(!isPasswordMatch){
+    throw new UnauthenticatedError("Authentication invalid")
   }
-
 
   const token = user.createJWT()
   res.status(StatusCodes.OK).json({user:{name:user.name, token}})
@@ -226,8 +225,8 @@ UserSchema.methods.createJWT = async funciton (){
 //✨ comparePassword method
 // compare passwords to check for match
 //  bycrypt.compare() user.password with this.password
-UserSchema.methods.comparePassword = async function (candidatePassword){
-  const isMatch = await bycrypt.compare(candidatePassword, this.password)
+UserSchema.methods.comparePassword = async function (candidtatePassword){
+  const isMatch = await bcrypts.compare(candidatePassword, this.password);
   return isMatch
 }
 
@@ -237,24 +236,32 @@ module.exports = mongoose.model("User", UserSchema);
 - ✨ middleware/authentication.js
 
 ```js
-const User = require("./model/User");
-const jwt = require("jsonwbetoken");
+const User = require("./models/User");
+const jwt = require("jsonwebtoken");
 const { UnauthenticatedError } = require("../errors");
+/* auth middleware
+ * init header.authroization
+ * if header.authorization has no value throw error
+ * create token from authHeader string
+ * verify payload token
+ * request user data `id` and `name`
+ * else throw error
+ */
 
 const auth = async (req, res, next) => {
-  // check header
   const authHeader = req.header.authorization;
-
   if (!authHeader || !authHeader.startsWith(" Bearer")) {
     throw new UnauthenticatedError("Authentication invalid");
   }
   const token = authHeader.split(" ")[1];
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    // attach the user to the job routes
+    // req. payload data
     req.user = { userId: payload.userId, name: payload.name };
   } catch (error) {
     throw new UnauthenticatedError("Authentication invalid");
   }
 };
+
+module.exports = auth;
 ```
