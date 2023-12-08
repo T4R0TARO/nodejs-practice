@@ -30,34 +30,34 @@ const register = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ user: { name: user.name, token } });
 };
 
-const login = (req, res) => {
+const login = async (req, res) => {
   // res.send("login testing...");
   /*
-    * get values for `email` and `password`
-    * if `email` OF `password` do NOT have values throw Error
-    * find user w/ `findOne()` with the value `email`
-    * if `user` does not have a value Error throw Error
-    * create user token
-    * response success status code of user object and token
-  */
+   * get values for `email` and `password`
+   * if `email` OF `password` do NOT have values throw Error
+   * find user w/ `findOne()` with the value `email`
+   * if `user` does not have a value Error throw Error
+   * create user token
+   * response success status code of user object and token
+   */
 
-  const {email, password} = req.body;
-  if(!email || !password){
-    throw new BadRequestError("Please provide email and password")
+  const { email, password } = req.body;
+  if (!email || !password) {
+    throw new BadRequestError("Please provide email and password");
   }
-  const user = await User.findOne({email});
-  if(!user){
-    throw new UnauthenticatedError("Invalid Credentials")
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new UnauthenticatedError("Invalid Credentials");
   }
 
   // ✨ compare password else throw Error
   const isPasswordMatch = await user.comparePassword(password);
-  if(!isPasswordMatch){
-    throw new UnauthenticatedError("Authentication invalid")
+  if (!isPasswordMatch) {
+    throw new UnauthenticatedError("Invalid Credentials");
   }
 
-  const token = user.createJWT()
-  res.status(StatusCodes.OK).json({user:{name:user.name, token}})
+  const token = user.createJWT();
+  res.status(StatusCodes.OK).json({ user: { name: user.name, token } });
 };
 
 module.exports = {
@@ -225,8 +225,8 @@ UserSchema.methods.createJWT = async funciton (){
 //✨ comparePassword method
 // compare passwords to check for match
 //  bycrypt.compare() user.password with this.password
-UserSchema.methods.comparePassword = async function (candidtatePassword){
-  const isMatch = await bcrypts.compare(candidatePassword, this.password);
+UserSchema.methods.comparePassword = async function(candidatePassword){
+  const isMatch = await bcrypt.compare(candidatePassword, this.password);
   return isMatch
 }
 
@@ -238,7 +238,8 @@ module.exports = mongoose.model("User", UserSchema);
 ```js
 const User = require("./models/User");
 const jwt = require("jsonwebtoken");
-const { UnauthenticatedError } = require("../errors");
+const { Unauthenticated } = require("../errors");
+
 /* auth middleware
  * init header.authroization
  * if header.authorization has no value throw error
@@ -251,15 +252,14 @@ const { UnauthenticatedError } = require("../errors");
 const auth = async (req, res, next) => {
   const authHeader = req.header.authorization;
   if (!authHeader || !authHeader.startsWith(" Bearer")) {
-    throw new UnauthenticatedError("Authentication invalid");
+    throw new UnauthenticatedError("Authentication invalid...");
   }
   const token = authHeader.split(" ")[1];
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    // req. payload data
     req.user = { userId: payload.userId, name: payload.name };
   } catch (error) {
-    throw new UnauthenticatedError("Authentication invalid");
+    throw new UnauthenticatedError("Authentication invalid...");
   }
 };
 
