@@ -249,3 +249,34 @@ const auth = async (req, res, next) => {
 
 module.exports = auth;
 ```
+
+- JobSchema
+
+```js
+const mongoose = require("mongoose");
+
+const JobSchema = new mongoose.Schema(
+  {
+    company: {},
+    position: {},
+    status: {},
+    createdBy: {},
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("Job", JobSchema);
+```
+
+- Update controller createJob()
+
+```js
+// controllers
+const createJob = async (req, res) => {
+  // change the values of prop `createdBy` to equal user.userId
+  req.body.createdBy = req.user.userId;
+  // create `job` obj with the values of `req.body`
+  const job = await Job.create(req.body);
+  res.status(StatusCodes.CREATED).json({ job });
+};
+```
