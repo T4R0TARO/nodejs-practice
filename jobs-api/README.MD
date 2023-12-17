@@ -61,16 +61,59 @@ module.exports {
 - Set up jobs controller
 
 ```js
+const Job = require("../models/Job");
+const { StatusCodes } = require("http-status-codes");
+const { BadRequestError, NotFoundError } = require("../errors");
+
+/* getAllJobs()
+ * get all the jobs that are created by the associated user token
+ * sort the all the jobs by the values `createdAt`
+ */
 const getAllJobs = async (req, res) => {
-  res.send("get all jobs...");
+  const jobs = await Job.find({ createdBy: req.user.userId }).sort("createdAt");
+  res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
 };
 
+/** getJob(): get single job obj by its job id from the associated user
+ *  nested destructuring...
+ *  get key `userId` and `jobId`
+ *  findOne job obj with the `userID` and `jobId`
+ *  Error Handler if not found by ID
+ */
 const getJob = async (req, res) => {
-  res.send("get job...");
+  // nested destructuring obj
+  const {
+    user: { userId },
+    params: { id: jobId },
+  } = req;
+
+  const job = await Job.findOne({
+    _id: jobId,
+    createdBy: userId,
+  });
+
+  if (!job) {
+    throw new NotFoundError(`No job with id ${jobId}`);
+  }
+
+  res.status(StatusCodes.OK).json({ job });
 };
+
+/* createJob()
+    * add key/value `createdBy` to the associated user token 
+    * create new obj from Job Schema with the values of the user token 
+    * OUTPUT:
+    {
+      company: 'cover',
+      position: 'illustrator',
+      createdBy: '6577c33f63bea646622b5b89'
+    }
+  */
 
 const createJob = async (req, res) => {
-  res.send("create job...");
+  req.body.createdBy = req.user.userId;
+  const job = await Job.create(req.body);
+  res.status(StatusCodes.CREATED).json({ job });
 };
 
 const updateJob = async (req, res) => {
