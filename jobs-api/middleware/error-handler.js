@@ -35,6 +35,11 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     customError.statusCode = 400;
   }
 
+  if (err.name === "CastError") {
+    customError.msg = `No job with with id: ${err.value}`;
+    customError.statusCode = 404;
+  }
+
   // return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err });
   return res.status(customError.statusCode).json({ msg: customError.msg });
 };
