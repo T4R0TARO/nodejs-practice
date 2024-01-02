@@ -33,7 +33,6 @@ const login = async (req, res) => {
   if (!isPasswordCorrect) {
     throw new UnauthenticatedError("Invalid Credentials");
   }
-
   // create token from user
   const token = user.createJWT();
   // if NO errors throw success status code and read JSON obj  user w/ token
