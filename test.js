@@ -18,7 +18,7 @@ class Animal {
 const cat = new Animal("Cat", "Nyah");
 const dog = new Animal("Dog", "Bau Bau");
 
-// cat.makeSound();
+cat.makeSound();
 
 // Inheritance
 // Allowing you to create a new class that is a modified version of an existing class
