@@ -1,3 +1,10 @@
+import {
+  commonSummonPool,
+  rareSummonPool,
+  legendarySummonPool,
+  rateUpSummonPool,
+} from "./data.js";
+
 // Define an array of possible rewards with associated percentages
 const rewards = [
   { name: "Common Item", chance: 92 },
@@ -5,59 +12,6 @@ const rewards = [
   { name: "Rate Up Item", chance: 2 },
   { name: "Legendary Item", chance: 1 },
 ];
-
-// Define a pool of common items
-const commonSummonPool = [
-  "🍅",
-  "🍆",
-  "🌽",
-  "🥗",
-  "🍄",
-  "🥑",
-  "🥒",
-  "🥬",
-  "🥦",
-  "🥔",
-  "🧄",
-  "🧅",
-  "🥕",
-];
-
-// Define a pool of rare items
-const rareSummonPool = [
-  "🥝",
-  "🍇",
-  "🍈",
-  "🍉",
-  "🍊",
-  "🍍",
-  "🥭",
-  "🍎",
-  "🍐",
-  "🍑",
-  "🍓",
-  "🍒",
-  "🍌",
-  "🍋",
-];
-
-// Define a pool of legendary items
-const legendarySummonPool = [
-  "🍦",
-  "🍧",
-  "🧁",
-  "🍫",
-  "🍬",
-  "🍭",
-  "🍡",
-  "🍮",
-  "🍰",
-  "🍪",
-  "🍩",
-];
-
-// Rate Up Pool
-const rateUpSummonPool = ["🍪"];
 
 // Initialize the total currency spent
 let totalCurrencySpent = 0;

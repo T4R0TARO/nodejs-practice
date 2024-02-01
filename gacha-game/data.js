@@ -47,3 +47,6 @@ export const legendarySummonPool = [
   "🍪",
   "🍩",
 ];
+
+// Rate Up Pool
+export const rateUpSummonPool = ["🍪"];
