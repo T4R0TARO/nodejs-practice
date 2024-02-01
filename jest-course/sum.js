@@ -10,7 +10,21 @@ function myFunction(input) {
   }
 }
 
+function fetchData(callback) {
+  setTimeout(() => {
+    callback("wah");
+  }, 1000);
+}
+
+function fetchPromise() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve("wah"), 1000);
+  });
+}
+
 module.exports = {
   sum,
   myFunction,
+  fetchData,
+  fetchPromise,
 };
