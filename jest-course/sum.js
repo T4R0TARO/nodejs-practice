@@ -1,5 +1,3 @@
-console.log("testing...");
-
 function sum(a, b) {
   return a + b;
 }
@@ -10,6 +8,7 @@ function myFunction(input) {
   }
 }
 
+//takes a function `callback` as a param and returns "wah"
 function fetchData(callback) {
   setTimeout(() => {
     callback("wah");

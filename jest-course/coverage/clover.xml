@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1706754264024" clover="3.2.0">
-  <project timestamp="1706754264025" name="All files">
-    <metrics statements="21" coveredstatements="15" conditionals="4" coveredconditionals="2" methods="11" coveredmethods="5" elements="36" coveredelements="22" complexity="0" loc="21" ncloc="21" packages="1" files="2" classes="2"/>
+<coverage generated="1706822045143" clover="3.2.0">
+  <project timestamp="1706822045143" name="All files">
+    <metrics statements="23" coveredstatements="8" conditionals="4" coveredconditionals="0" methods="14" coveredmethods="4" elements="41" coveredelements="12" complexity="0" loc="23" ncloc="23" packages="1" files="2" classes="2"/>
     <file name="stack.js" path="C:\Users\joshm\Desktop\nodejs-course\jest-course\stack.js">
-      <metrics statements="12" coveredstatements="12" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
-      <line num="3" count="11" type="stmt"/>
-      <line num="4" count="11" type="stmt"/>
-      <line num="8" count="1" type="stmt"/>
-      <line num="12" count="2" type="stmt"/>
-      <line num="13" count="2" type="stmt"/>
-      <line num="17" count="2" type="cond" truecount="2" falsecount="0"/>
-      <line num="18" count="1" type="stmt"/>
-      <line num="21" count="1" type="stmt"/>
-      <line num="22" count="1" type="stmt"/>
-      <line num="23" count="1" type="stmt"/>
-      <line num="24" count="1" type="stmt"/>
-      <line num="28" count="1" type="stmt"/>
+      <metrics statements="15" coveredstatements="6" conditionals="2" coveredconditionals="0" methods="7" coveredmethods="3"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="4" count="1" type="stmt"/>
+      <line num="8" count="0" type="stmt"/>
+      <line num="12" count="0" type="stmt"/>
+      <line num="13" count="0" type="stmt"/>
+      <line num="17" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="18" count="0" type="stmt"/>
+      <line num="21" count="0" type="stmt"/>
+      <line num="22" count="0" type="stmt"/>
+      <line num="23" count="0" type="stmt"/>
+      <line num="24" count="0" type="stmt"/>
+      <line num="29" count="1" type="stmt"/>
+      <line num="30" count="1" type="stmt"/>
+      <line num="34" count="1" type="stmt"/>
+      <line num="36" count="1" type="stmt"/>
     </file>
     <file name="sum.js" path="C:\Users\joshm\Desktop\nodejs-course\jest-course\sum.js">
-      <metrics statements="9" coveredstatements="3" conditionals="2" coveredconditionals="0" methods="7" coveredmethods="1"/>
-      <line num="1" count="1" type="stmt"/>
-      <line num="4" count="1" type="stmt"/>
-      <line num="8" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="9" count="0" type="stmt"/>
+      <metrics statements="8" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="7" coveredmethods="1"/>
+      <line num="2" count="1" type="stmt"/>
+      <line num="6" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="7" count="0" type="stmt"/>
+      <line num="13" count="0" type="stmt"/>
       <line num="14" count="0" type="stmt"/>
-      <line num="15" count="0" type="stmt"/>
+      <line num="19" count="0" type="stmt"/>
       <line num="20" count="0" type="stmt"/>
-      <line num="21" count="0" type="stmt"/>
-      <line num="25" count="1" type="stmt"/>
+      <line num="24" count="1" type="stmt"/>
     </file>
   </project>
 </coverage>
