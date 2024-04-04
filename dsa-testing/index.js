@@ -56,34 +56,36 @@ console.clear();
   validAnagram("texttwisttime","timetwisttest") // true
 */
 
+// METHOD 1
 // Time Complexity O(n)
 // Space Complexity O(n)
-function validAnagram(str1, str2) {
-  if (typeof str1 && typeof str2 !== "string") return false;
-  if (str1.length !== str2.length) return false;
+// function validAnagram(str1, str2) {
+//   if (typeof str1 && typeof str2 !== "string") return false;
+//   if (str1.length !== str2.length) return false;
 
-  let frequencyCounter1 = {};
-  let frequencyCounter2 = {};
+//   let frequencyCounter1 = {};
+//   let frequencyCounter2 = {};
 
-  let reformatStr1 = str1.split("");
-  let reformatStr2 = str2.split("");
+//   let reformatStr1 = str1.split("");
+//   let reformatStr2 = str2.split("");
 
-  for (let char of reformatStr1) {
-    frequencyCounter1[char] = (frequencyCounter1[char] || 0) + 1;
-  }
+//   for (let char of reformatStr1) {
+//     frequencyCounter1[char] = (frequencyCounter1[char] || 0) + 1;
+//   }
 
-  for (let char of reformatStr2) {
-    frequencyCounter2[char] = (frequencyCounter2[char] || 0) + 1;
-  }
+//   for (let char of reformatStr2) {
+//     frequencyCounter2[char] = (frequencyCounter2[char] || 0) + 1;
+//   }
 
-  for (let key in frequencyCounter1) {
-    if (!(key in frequencyCounter2)) return false;
-    if (frequencyCounter2[key] !== frequencyCounter1[key]) return false;
-  }
+//   for (let key in frequencyCounter1) {
+//     if (!(key in frequencyCounter2)) return false;
+//     if (frequencyCounter2[key] !== frequencyCounter1[key]) return false;
+//   }
 
-  return true;
-}
+//   return true;
+// }
 
+// METHOD 2
 /**
  * Time Complexity: O(n log n)
  * Space Complexity:O(n)
@@ -97,6 +99,34 @@ function validAnagram(str1, str2) {
 //   return reformatStr1 === reformatStr2; // O(n)
 // }
 
+// METHOD 3
+function validAnagram(str1, str2) {
+  // if lengths of str1 and str2 are NOT equal return false
+  if (str1.length !== str2.length) return false;
+  // create frequency counter obj
+  const lookup = {};
+  // loop through str1
+  for (let i = 0; i < str1.length; i++) {
+    let char = str1[i];
+    // if char exists, increment, otherwise set to 1; "populate obj w/ str1 for comparison"
+    lookup[char] ? (lookup[char] += 1) : (lookup[char] = 1);
+  }
+  // loop through str2
+  for (let i = 0; i < str2.length; i++) {
+    let char = str2[i];
+    // check if char is in lookup obj
+    // can't find char or char is zero, then it's NOT an anagram return false
+    if (!lookup[char]) {
+      return false;
+    } else {
+      // if char is in lookup obj, -1  value
+      // why? if the key and values are equal the values will perfectly 0 out returning true
+      lookup[char] -= 1;
+    }
+  }
+  return true;
+}
+
 console.log(validAnagram("", "")); // true
 console.log(validAnagram("qwerty", 100)); // false
 console.log(validAnagram("aaz", "zza")); // false
@@ -106,4 +136,4 @@ console.log(validAnagram("awesome", "awesom")); //false
 console.log(validAnagram("qwerty", "qeywrt")); //true
 console.log(validAnagram("testtwisttime", "timetwisttest")); // true
 
-console.clear();
+// console.clear();
