@@ -101,32 +101,62 @@ console.clear();
 
 // METHOD 3
 function validAnagram(str1, str2) {
-  // if lengths of str1 and str2 are NOT equal return false
-  if (str1.length !== str2.length) return false;
-  // create frequency counter obj
+  // should i consider types? assume inputs are always string
+  if (typeof str1 || typeof str2 !== "string") return false;
+  // should i consider special characters? assume the input are alpha char
+  // should i consider spaces? assume the strings contain no spaces
+  // should i consider upppercase character? assume input are always lowercase
+  // let str1Reformat = str1.toLowercase().replace(/[^a-z]/g, "")
+  // let str2Reformat = str1.toLowercase().replace(/[^a-z]/g, "")
+
+  // if input length are NOT equal return false
+  if (str1.length !== str2.length) {
+    return false;
+  }
+  // create lookup obj
   const lookup = {};
   // loop through str1
   for (let i = 0; i < str1.length; i++) {
+    // populate lookup obj w/ str1 elements
     let char = str1[i];
-    // if char exists, increment, otherwise set to 1; "populate obj w/ str1 for comparison"
     lookup[char] ? (lookup[char] += 1) : (lookup[char] = 1);
   }
   // loop through str2
   for (let i = 0; i < str2.length; i++) {
     let char = str2[i];
-    // check if char is in lookup obj
-    // can't find char or char is zero, then it's NOT an anagram return false
+    // if elements of str2 are NOT in lookup obj return false
     if (!lookup[char]) {
       return false;
     } else {
-      // if char is in lookup obj, -1  value
-      // why? if the key and values are equal the values will perfectly 0 out returning true
+      // else element is in str2 ARE in lookup obj  -1
       lookup[char] -= 1;
     }
   }
   return true;
 }
 
+/*
+  Lookup Obj:
+ {
+  a: 3, -1 -1 -1
+  n: 1, -1
+  g: 1, -1
+  r: 1, -1
+  m: 1, -1
+ }
+
+ Loop Char str1 
+ [n,a,g,a,r,a,m]
+
+
+ {
+  r: 1, -1
+  a: 1, -1
+  t: 1, -1 false
+ }
+
+ [r,a,t,t]
+*/
 console.log(validAnagram("", "")); // true
 console.log(validAnagram("qwerty", 100)); // false
 console.log(validAnagram("aaz", "zza")); // false
