@@ -166,4 +166,50 @@ console.log(validAnagram("awesome", "awesom")); //false
 console.log(validAnagram("qwerty", "qeywrt")); //true
 console.log(validAnagram("testtwisttime", "timetwisttest")); // true
 
-// console.clear();
+console.clear();
+
+/*
+ Create a function that accepts a sorted array of integers. The function should return the first two integer pairs whos sum equals 0
+*/
+
+// Time Complexity O(n^2)
+// Space Complexity O(n)
+// function sumZero(arr) {
+//   // is the arr always sorted?
+//   // is the input always an arr?
+//   for (let i = 0; i < arr.length; i++) {
+//     for (let j = i + 1; j < arr.length; j++) {
+//       let sum = arr[i] + arr[j];
+//       if (sum === 0) {
+//         return [arr[i], arr[j]];
+//       }
+//     }
+//   }
+// }
+
+// MULTIPLE POINT COUNTER
+function sumZero(arr) {
+  // do something...
+  // init left pointer
+  let left = 0;
+  // init right pointer
+  let right = arr.length - 1;
+  // loop arr while left < right
+  while (left < right) {
+    // init sum = left + right === 0
+    let sum = arr[left] + arr[right];
+    // if sum === 0 return arr pair
+    if (sum === 0) {
+      return [arr[left], arr[right]];
+      // else if sum is greater than 0 move pointer right
+    } else if (sum > 0) {
+      right--;
+      // else if move pointer left
+    } else {
+      left++;
+    }
+  }
+}
+
+console.log(sumZero([-3, -2, -1, 0, 1, 2, 4])); // [-2, 2]
+console.log(sumZero([-3, -2, -1, 0, 4, , 5, 6])); // undefined
