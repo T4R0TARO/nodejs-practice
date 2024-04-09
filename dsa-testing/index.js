@@ -173,7 +173,7 @@ console.clear();
 */
 
 // Time Complexity O(n^2)
-// Space Complexity O(n)
+// Space Complexity O(1)
 // function sumZero(arr) {
 //   // is the arr always sorted?
 //   // is the input always an arr?
@@ -188,6 +188,8 @@ console.clear();
 // }
 
 // MULTIPLE POINT COUNTER
+// Time Complexity O(n)
+// Space Complexity O(1)
 function sumZero(arr) {
   // do something...
   // init left pointer
@@ -213,3 +215,47 @@ function sumZero(arr) {
 
 console.log(sumZero([-3, -2, -1, 0, 1, 2, 4])); // [-2, 2]
 console.log(sumZero([-3, -2, -1, 0, 4, , 5, 6])); // undefined
+console.clear();
+
+// MULTIPLE POINTERS
+/*
+  Implement a function called `countUniqueValues`, which accepts a sorted array, and counts the unique values in the array. There can be negative numbers in the array, BUT it will always be sorted.
+
+  countUniqueValues([1,1,1,1,1,2]) // 2
+  countUniqueValues([1,2,3,4,4,4,7,7,12,12,13]) // 7
+  countUniqueValues([]) // 0
+  countUniqueValues([-2,-1,-1,0,1]) // 4
+*/
+
+// METHOD 1
+// Time Complexity O(n)
+// Space Complexity O(n) why?
+// the obj `uniqueNumMap` grows in proportion to the input arr O(n)
+// the arr `uniqueNumCount` grow in proportion to the input arr O(n)
+function countUniqueValues(arr) {
+  // create obj
+  let uniqueNumMap = {};
+  // create arr
+  let uniqueNumCount = [];
+  // loop through items in input arr
+  arr.map((num) => {
+    // populate obj w/ items of input arr
+    uniqueNumMap[num] ? uniqueNumMap[num]++ : (uniqueNumMap[num] = 1);
+  });
+
+  // loop through obj keys
+  for (let key in uniqueNumMap) {
+    // push obj key in arr `uniqueNumCount`
+    uniqueNumCount.push(key);
+  }
+
+  // create var that holds the length of arr `uniqueNumCount`
+  let countOfUniqueNum = uniqueNumCount.length;
+  // return var
+  return countOfUniqueNum;
+}
+
+console.log(countUniqueValues([1, 1, 1, 1, 1, 2])); // 2
+console.log(countUniqueValues([1, 2, 3, 4, 4, 4, 7, 7, 12, 12, 13])); // 7
+console.log(countUniqueValues([])); // 0
+console.log(countUniqueValues([-2, -1, -1, 0, 1])); // 4
