@@ -232,29 +232,58 @@ console.clear();
 // Space Complexity O(n) why?
 // the obj `uniqueNumMap` grows in proportion to the input arr O(n)
 // the arr `uniqueNumCount` grow in proportion to the input arr O(n)
+
+// function countUniqueValues(arr) {
+//   // create obj
+//   let uniqueNumMap = {};
+//   // create arr
+//   let uniqueNumCount = [];
+//   // loop through items in input arr
+//   arr.map((num) => {
+//     // populate obj w/ items of input arr
+//     uniqueNumMap[num] ? uniqueNumMap[num]++ : (uniqueNumMap[num] = 1);
+//   });
+
+//   // loop through obj keys
+//   for (let key in uniqueNumMap) {
+//     // push obj key in arr `uniqueNumCount`
+//     uniqueNumCount.push(key);
+//   }
+
+//   // create var that holds the length of arr `uniqueNumCount`
+//   let countOfUniqueNum = uniqueNumCount.length;
+//   // return var
+//   return countOfUniqueNum;
+// }
+
+// METHOD 2
 function countUniqueValues(arr) {
-  // create obj
-  let uniqueNumMap = {};
-  // create arr
-  let uniqueNumCount = [];
-  // loop through items in input arr
-  arr.map((num) => {
-    // populate obj w/ items of input arr
-    uniqueNumMap[num] ? uniqueNumMap[num]++ : (uniqueNumMap[num] = 1);
-  });
-
-  // loop through obj keys
-  for (let key in uniqueNumMap) {
-    // push obj key in arr `uniqueNumCount`
-    uniqueNumCount.push(key);
+  // if arr is empty return 0
+  if (arr.length === 0) return 0;
+  // set pointer 1 `i`
+  let i = 0;
+  // loop thorugh arr
+  // set pointer 2 `j`
+  for (let j = 1; j < arr.length; j++) {
+    // if pointer 1 is NOT equal to pointer 2...
+    if (arr[i] !== arr[j]) {
+      // move pointer 1
+      i++;
+      // change pointer 1 to equal pointer 2
+      arr[i] = arr[j];
+    }
   }
-
-  // create var that holds the length of arr `uniqueNumCount`
-  let countOfUniqueNum = uniqueNumCount.length;
-  // return var
-  return countOfUniqueNum;
+  // return pointer 1 + 1 ` value because arr index starts at 0'
+  return i + 1;
 }
+/*
+ 
+                      i   
+  [1, 2, 3, 4, 7, 12, 13, 7, 12, 12, 13]
 
+                                    j
+  [1, 2, 3, 4, 4, 4, 7, 7, 12, 12, 13]
+*/
 console.log(countUniqueValues([1, 1, 1, 1, 1, 2])); // 2
 console.log(countUniqueValues([1, 2, 3, 4, 4, 4, 7, 7, 12, 12, 13])); // 7
 console.log(countUniqueValues([])); // 0
