@@ -66,3 +66,36 @@ function sumZero(arr) {
 }
 
 console.log(sumZero([-4, -2, -1, 0, 2, 5, 9])); // [-2, 2]
+console.clear();
+//  Implement a function called `countUniqueValues`, which accepts a sorted array, and counts the unique values in the array. There can be negative numbers in the array, BUT it will always be sorted.
+
+function countUniqueValues(arr) {
+  // if arr.length === 0 return 0
+  if (arr.length === 0) return 0;
+  // set pointer 1 `let i = 0`
+  let i = 0;
+  // set pointer 2 `let j = 1`
+  //loop through arr w/ pointer 2
+  for (let j = 1; j < arr.length; j++) {
+    if (arr[i] !== arr[j]) {
+      i++;
+      arr[i] = arr[j];
+    }
+  }
+  return i + 1;
+  /*
+                        i
+    [1, 2, 3, 4, 7, 12, 13, 7, 12, 12, 13]
+    
+    `j` will scout the arr items and check if they are equal to `i` 
+     if they are not equal to `i` the pointer `i` will incremently increase in the arr index
+     if they are not equal to `i` then i will equal the unique value replace change the item it is pointing to 
+                                      j
+    [1, 2, 3, 4, 4, 4, 7, 7, 12, 12, 13]
+  */
+}
+
+console.log(countUniqueValues([1, 1, 1, 1, 1, 2])); // 2
+console.log(countUniqueValues([1, 2, 3, 4, 4, 4, 7, 7, 12, 12, 13])); // 7
+console.log(countUniqueValues([])); // 0
+console.log(countUniqueValues([-2, -1, -1, 0, 1])); // 4
