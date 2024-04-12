@@ -81,14 +81,35 @@ console.log(validAnagram("rat", "car")); // false
 console.log(validAnagram("awesome", "awesom")); //false
 console.log(validAnagram("qwerty", "qeywrt")); //true
 console.log(validAnagram("testtwisttime", "timetwisttest")); // true
-// console.clear();
+console.clear();
 
 /*
     Create a function that accepts a sorted array of integers. The function should return the first two integer pairs whos sum equals 0
 */
-function sumZero(arr) {}
-
-// console.log(sumZero([-4, -2, -1, 0, 2, 5, 9])); // [-2, 2]
+function sumZero(arr) {
+  // Multiple Pointer
+  // Is the input always sorted? yes
+  // create var pointer1 `left` and point it at the start of the arr
+  let left = 0;
+  // create var pointer2 `right` and point it at the end of the arr
+  let right = arr.length - 1;
+  // loop through the input arr
+  for (let i = 0; i < arr.length; i++) {
+    // create var `sum` = `left` + `right`
+    let sum = arr[left] + arr[right];
+    // if `sum` === 0 return [left, right]
+    if (sum === 0) {
+      return [arr[left], arr[right]];
+    } else if (sum > 0) {
+      // else if `sum` > 0 / right--
+      right--;
+    } else {
+      // else left++
+      left++;
+    }
+  }
+}
+console.log(sumZero([-4, -2, -1, 0, 2, 5, 9])); // [-2, 2]
 // console.clear();
 
 //  Implement a function called `countUniqueValues`, which accepts a sorted array, and counts the unique values in the array. There can be negative numbers in the array, BUT it will always be sorted.
