@@ -43,14 +43,44 @@ console.clear();
   Create a function called `validAnagram` that accepts two strings. Check if those those strings are anagrams of each other and return a boolean.
 */
 
-// console.log(validAnagram("", "")); // true
-// console.log(validAnagram("qwerty", 100)); // false
-// console.log(validAnagram("aaz", "zza")); // false
-// console.log(validAnagram("anagram", "nagaram")); // true
-// console.log(validAnagram("rat", "car")); // false
-// console.log(validAnagram("awesome", "awesom")); //false
-// console.log(validAnagram("qwerty", "qeywrt")); //true
-// console.log(validAnagram("testtwisttime", "timetwisttest")); // true
+function validAnagram(str1, str2) {
+  // are str1 and str2 the same length? If NOT return false
+  if (str1.length !== str2.length) return false;
+  if (typeof str1 && typeof str2 !== "string") return false;
+  // create obj1 `frequencyCounter1`
+  let frequencyCounter1 = {};
+  // create obj2 `frequencyCounter2`
+  let frequencyCounter2 = {};
+  // populate `frequencyCounter1` with str1
+  for (let char of str1) {
+    frequencyCounter1[char]
+      ? (frequencyCounter1[char] += 1)
+      : (frequencyCounter1[char] = 1);
+  }
+  // populate `frequencyCounter2` with str2
+  for (let char of str2) {
+    frequencyCounter2[char]
+      ? (frequencyCounter2[char] += 1)
+      : (frequencyCounter2[char] = 1);
+  }
+  // loop through `frequncyCounter1` char
+  for (let key in frequencyCounter1) {
+    // if char is NOT in `frequencyCounter2` return false
+    if (!key in frequencyCounter2) return false;
+    // if `frequencyCounter2` key/values are NOT equal to `frequencyCounter1` return false
+    if (frequencyCounter2[key] !== frequencyCounter1[key]) return false;
+  }
+  return true;
+}
+
+console.log(validAnagram("", "")); // true
+console.log(validAnagram("qwerty", 100)); // false
+console.log(validAnagram("aaz", "zza")); // false
+console.log(validAnagram("anagram", "nagaram")); // true
+console.log(validAnagram("rat", "car")); // false
+console.log(validAnagram("awesome", "awesom")); //false
+console.log(validAnagram("qwerty", "qeywrt")); //true
+console.log(validAnagram("testtwisttime", "timetwisttest")); // true
 // console.clear();
 
 /*
