@@ -110,14 +110,64 @@ function sumZero(arr) {
   }
 }
 console.log(sumZero([-4, -2, -1, 0, 2, 5, 9])); // [-2, 2]
-// console.clear();
+console.log(sumZero([-4, -3, -1, 0, 1, 2, 5, 9])); // [-1, 1]
+
+console.clear();
 
 //  Implement a function called `countUniqueValues`, which accepts a sorted array, and counts the unique values in the array. There can be negative numbers in the array, BUT it will always be sorted.
 
-function countUniqueValues(arr) {}
+function countUniqueValues(arr) {
+  // is the input arr always sorted? yes
+  // can i change the original arr or do i have to return a new arr? yes you can mutate the original arr
+  // what if the arr in empty? return 0
+  // Do i have restraints on the run time? Make the function O(n) run time
 
-// console.log(countUniqueValues([1, 1, 1, 1, 1, 2])); // 2
-// console.log(countUniqueValues([1, 2, 3, 4, 4, 4, 7, 7, 12, 12, 13])); // 7
-// console.log(countUniqueValues([])); // 0
-// console.log(countUniqueValues([-2, -1, -1, 0, 1])); // 4
+  // Plan 1 O(n) log n
+  // Create obj
+  // populate obj w/ input arr
+  // create new arr
+  // populate new arr with keys of obj
+  // return length of new arr
+
+  // Plan 2 O(n)
+  if (arr.length === 0) return 0;
+  // Set pointer `i` at start of arr
+  let i = 0;
+  // Set pointer `j` at index 1 of arr
+  // loop thorugh arr
+  for (let j = 1; j < arr.length; j++) {
+    // compare if i === j
+    // if NOT move pointer `i` incremently
+    if (arr[i] !== arr[j]) {
+      // change `i` value to `j` value
+      i++;
+      arr[i] = arr[j];
+    }
+  }
+  return i + 1;
+  /*
+                 i  
+    [1, 2, 3, 4, 4, 4, 7, 7, 12, 12, 13]
+                       j
+  */
+}
+
+console.log(countUniqueValues([1, 1, 1, 1, 1, 2])); // 2
+console.log(countUniqueValues([1, 2, 3, 4, 4, 4, 7, 7, 12, 12, 13])); // 7
+console.log(countUniqueValues([])); // 0
+console.log(countUniqueValues([-2, -1, -1, 0, 1])); // 4
 // console.clear();
+
+/*
+  Write a function called `maxSubarraySum` which accepts an array of integers and a number called `n`. The function should calculate the maximum sum of `n` consecutuve elements in the array.  
+*/
+
+function maxSubarraySum(arr, num) {
+  // do something...
+}
+
+console.log(maxSubarraySum([1, 2, 5, 2, 8, 1, 5], 2)); // 10
+console.log(maxSubarraySum([1, 2, 5, 2, 8, 1, 5], 4)); // 17
+console.log(maxSubarraySum([4, 2, 1, 6], 1)); // 6
+console.log(maxSubarraySum([4, 2, 1, 6, 2], 4)); // 13
+console.log(maxSubarraySum([], 4)); // null

@@ -288,3 +288,85 @@ console.log(countUniqueValues([1, 1, 1, 1, 1, 2])); // 2
 console.log(countUniqueValues([1, 2, 3, 4, 4, 4, 7, 7, 12, 12, 13])); // 7
 console.log(countUniqueValues([])); // 0
 console.log(countUniqueValues([-2, -1, -1, 0, 1])); // 4
+console.clear();
+
+// Sliding Window Pattern
+/**
+ * This pattern involves creating a "window" which can wither be an array or numebr form one positon to another
+ * Depending on a certain condition, the window either increases or closes (and a new window is created)
+ * Very useful for keeping track of a subset of data in an array/string etc.
+ */
+
+/*
+  Write a function called `maxSubarraySum` which accepts an array of integers and a number called `n`. The function should calculate the maximum sum of `n` consecutuve elements in the array.  
+*/
+
+// METHOD 1:
+// TIME O(n^2)
+// function maxSubarraySum(arr, num) {
+//   // if `num` is greater than the amount of items in the arr return null;
+//   if (num > arr.length) {
+//     return null;
+//   }
+//   let max = -Infinity;
+//   /* arr.length - num + 1 ?? "seting the size of the window"
+//    * we dont need to loop through the entire array b/c we are count by elements of "4"
+//    * if we run out of elements of "4" we do not need to cont. the itteration
+//      +  +  +  +
+//     [1, 2, 5, 2, 8, 1, 5], 4
+//     arr.length - num
+//         7     -   4  +  1 "adjust for arr zero index" = 4 iterations
+//     * 1, 2, 5, 2
+//     * 2, 5, 2, 8
+//     * 5, 2, 8, 1
+//     * 2, 8, 1, 5
+//     *  8, 1, 5 ❌
+//   */
+//   for (let i = 0; i < arr.length - num + 1; i++) {
+//     // temp will store our sum each iteration
+//     temp = 0;
+//     // loop through the numbers of the window
+//     for (let j = 0; j < num; j++) {
+//       // add the numbers of the window and hold the sum in var `temp`
+//       temp += arr[i + j];
+//     }
+//     // if `temp` is greater than `max` set the value of `max` to `temp`
+//     // if a new sum is greater in the next iterations then set `max` to the greater `temp`
+//     if (temp > max) {
+//       max = temp;
+//     }
+//   }
+//   // when loop ends return `max` value
+//   return max;
+// }
+
+/*   +  +
+    [1, 2, 5, 2, 8, 1, 5], 2
+        7      -  2  + 1 = 6 iterations
+    arr.length - num + 1
+*/
+
+// METHOD 2
+// TIME O(n)
+
+function maxSubarraySum(arr, num) {
+  // do something...
+  let maxSum = 0;
+  let tempSum = 0;
+  if (arr.length < num) return null;
+  for (let i = 0; i < num; i++) {
+    maxSum += arr[i];
+  }
+  tempSum = maxSum;
+  for (let i = num; i < arr.length; i++) {
+    tempSum = tempSum - arr[i - num] + arr[i];
+    maxSum = Math.max(maxSum, tempSum);
+  }
+  return maxSum;
+}
+
+console.log(maxSubarraySum([1, 2, 5, 2, 8, 1, 5], 2)); // 10
+console.log(maxSubarraySum([1, 2, 5, 2, 8, 1, 5], 4)); // 17
+console.log(maxSubarraySum([4, 2, 1, 6], 1)); // 6
+console.log(maxSubarraySum([4, 2, 1, 6, 2], 4)); // 13
+console.log(maxSubarraySum([], 4)); // null
