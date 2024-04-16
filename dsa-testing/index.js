@@ -350,23 +350,89 @@ console.clear();
 // TIME O(n)
 
 function maxSubarraySum(arr, num) {
-  // do something...
+  // create var `maxSum` to hold max sum of consecutive elements
   let maxSum = 0;
+
+  // create var `tempSum` to hold the current sum of each iteration when moving the "sliding window"
   let tempSum = 0;
+
+  // what if the input arrays length is less then the number of consecutive elements input number? return null
   if (arr.length < num) return null;
+
+  // set "sliding window", create a loop that iterates the amount of the input number
   for (let i = 0; i < num; i++) {
+    // add the elements of the arr to the maxSum
     maxSum += arr[i];
+    /* 
+     e.g.
+
+     i i i  
+    [2,6,9,2,1,8,5,6,3] ,3
+
+    maxSum = 2 + 6 + 9 = 17;
+    */
   }
+
+  // set the `tempSum` to the value `maxSum` to start the "sliding window"
   tempSum = maxSum;
-  for (let i = num; i < arr.length; i++) {
+
+  // loop through the arr STARTING at the input number value
+  /* e.g. 
+           i  
+    [2,6,9,2,1,8,5,6,3] ,3
+     0 1 2 3 4 5 6 7 0   arr index
+
+     subtract the first element of sliding window `arr[i - num]`
+     arr[3 - 3 =  0] =  2
+
+     add the current element of the sliding window `arr[i]`
+     arr[3] = 2
+
     tempSum = tempSum - arr[i - num] + arr[i];
+    tempSum =   17    -      2       +    2
+  */
+  for (let i = num; i < arr.length; i++) {
+    // from the current value of `tempSum`...
+    // substract the first element from the "sliding window", `arr[i - num]`
+    // then add the next iterations last element to the "sliding window", `arr[i]`
+    tempSum = tempSum - arr[i - num] + arr[i];
+    // compare `maxSum` and `tempSum` values and have `maxSum` hold the highest value
     maxSum = Math.max(maxSum, tempSum);
+
+    /* e.g.
+       tempSum = 17
+
+               i  
+        [2,6,9,2,1,8,5,6,3] ,3
+    */
   }
+  // return maxSum
   return maxSum;
 }
+
+/* `tempSum = tempSum - arr[i - num] + arr[i]`
+ * Instead of recalculting the sum  of all the elements we can substract the first element and add the next iterations last element to calculate the new sum
+ */
+
+/* e.g.
+    tempSum = [2+6+9] = 17
+          first element       new last element
+    17       - 2                    + 2             = 17
+    17       - 6                    + 1             = 12 
+    12       - 9                    + 8             = 11 
+    11       - 2                    + 5             = 14 
+    14       - 1                    + 6             = 19 * 
+    19       - 8                    + 3             = 14 
+
+                 i i i  
+    [2,6,9,2,1,8,5,6,3] ,3
+    
+    Output = 19
+  */
 
 console.log(maxSubarraySum([1, 2, 5, 2, 8, 1, 5], 2)); // 10
 console.log(maxSubarraySum([1, 2, 5, 2, 8, 1, 5], 4)); // 17
 console.log(maxSubarraySum([4, 2, 1, 6], 1)); // 6
 console.log(maxSubarraySum([4, 2, 1, 6, 2], 4)); // 13
 console.log(maxSubarraySum([], 4)); // null
+console.log(maxSubarraySum([2, 6, 9, 2, 1, 8, 5, 6, 3], 3)); // 19

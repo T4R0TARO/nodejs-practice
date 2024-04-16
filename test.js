@@ -3,8 +3,9 @@
 */
 // Frequency Counter
 function same(arr1, arr2) {
-  // are arr1 and arr2 the same length? if NOT return false
+  // what if `arr1` is NOT the same length as `arr2`... return false
   if (arr1.length !== arr2.length) return false;
+  // can i assume that the inputs are always array of integers? yes
   // create obj1 `frequencyCounter1`
   let frequencyCounter1 = {};
   // create obj2 `frequencyCounter2`
@@ -21,14 +22,10 @@ function same(arr1, arr2) {
   }
   // loop through `frequencyCounter1` keys
   for (let key in frequencyCounter1) {
-    // are `frequencyCounter1` keys ** 2 in `frequencyCounter2`? if NOT return false
-    if (!(key ** 2) in frequencyCounter2) {
-      return false;
-    }
-    // are `frequencyCounter2` values EQUAL to `frequencyCounter1` values? if NOT return false
-    if (frequencyCounter2[key ** 2] !== frequencyCounter1[key]) {
-      return false;
-    }
+    // if `key` ** 2 is NOT in `frequencyCounter2`... return false
+    if (!(key ** 2) in frequencyCounter2) return false;
+    // if value of `frequencyCounter2` is NOT the same as `frequencyCounter1`... return false
+    if (frequencyCounter2[key ** 2] !== frequencyCounter1[key]) return false;
   }
   return true;
 }
@@ -37,40 +34,14 @@ console.log(same([1, 2, 3], [1, 4])); // false
 console.log(same([1, 2, 3], [1, 4, 4])); // false
 console.log(same([1, 2, 3], [1, 4, 9])); // true
 console.log(same([1, 4, 2, 3, 3], [1, 4, 9, 16, 9])); // true
-console.clear();
+// console.clear();
 
 /*
   Create a function called `validAnagram` that accepts two strings. Check if those those strings are anagrams of each other and return a boolean.
 */
 
 function validAnagram(str1, str2) {
-  // are str1 and str2 the same length? If NOT return false
-  if (str1.length !== str2.length) return false;
-  if (typeof str1 && typeof str2 !== "string") return false;
-  // create obj1 `frequencyCounter1`
-  let frequencyCounter1 = {};
-  // create obj2 `frequencyCounter2`
-  let frequencyCounter2 = {};
-  // populate `frequencyCounter1` with str1
-  for (let char of str1) {
-    frequencyCounter1[char]
-      ? (frequencyCounter1[char] += 1)
-      : (frequencyCounter1[char] = 1);
-  }
-  // populate `frequencyCounter2` with str2
-  for (let char of str2) {
-    frequencyCounter2[char]
-      ? (frequencyCounter2[char] += 1)
-      : (frequencyCounter2[char] = 1);
-  }
-  // loop through `frequncyCounter1` char
-  for (let key in frequencyCounter1) {
-    // if char is NOT in `frequencyCounter2` return false
-    if (!key in frequencyCounter2) return false;
-    // if `frequencyCounter2` key/values are NOT equal to `frequencyCounter1` return false
-    if (frequencyCounter2[key] !== frequencyCounter1[key]) return false;
-  }
-  return true;
+  // do something...
 }
 
 console.log(validAnagram("", "")); // true
@@ -81,75 +52,21 @@ console.log(validAnagram("rat", "car")); // false
 console.log(validAnagram("awesome", "awesom")); //false
 console.log(validAnagram("qwerty", "qeywrt")); //true
 console.log(validAnagram("testtwisttime", "timetwisttest")); // true
-console.clear();
+// console.clear();
 
 /*
     Create a function that accepts a sorted array of integers. The function should return the first two integer pairs whos sum equals 0
 */
-function sumZero(arr) {
-  // Multiple Pointer
-  // Is the input always sorted? yes
-  // create var pointer1 `left` and point it at the start of the arr
-  let left = 0;
-  // create var pointer2 `right` and point it at the end of the arr
-  let right = arr.length - 1;
-  // loop through the input arr
-  for (let i = 0; i < arr.length; i++) {
-    // create var `sum` = `left` + `right`
-    let sum = arr[left] + arr[right];
-    // if `sum` === 0 return [left, right]
-    if (sum === 0) {
-      return [arr[left], arr[right]];
-    } else if (sum > 0) {
-      // else if `sum` > 0 / right--
-      right--;
-    } else {
-      // else left++
-      left++;
-    }
-  }
-}
+function sumZero(arr) {}
 console.log(sumZero([-4, -2, -1, 0, 2, 5, 9])); // [-2, 2]
 console.log(sumZero([-4, -3, -1, 0, 1, 2, 5, 9])); // [-1, 1]
 
-console.clear();
+// console.clear();
 
 //  Implement a function called `countUniqueValues`, which accepts a sorted array, and counts the unique values in the array. There can be negative numbers in the array, BUT it will always be sorted.
 
 function countUniqueValues(arr) {
-  // is the input arr always sorted? yes
-  // can i change the original arr or do i have to return a new arr? yes you can mutate the original arr
-  // what if the arr in empty? return 0
-  // Do i have restraints on the run time? Make the function O(n) run time
-
-  // Plan 1 O(n) log n
-  // Create obj
-  // populate obj w/ input arr
-  // create new arr
-  // populate new arr with keys of obj
-  // return length of new arr
-
-  // Plan 2 O(n)
-  if (arr.length === 0) return 0;
-  // Set pointer `i` at start of arr
-  let i = 0;
-  // Set pointer `j` at index 1 of arr
-  // loop thorugh arr
-  for (let j = 1; j < arr.length; j++) {
-    // compare if i === j
-    // if NOT move pointer `i` incremently
-    if (arr[i] !== arr[j]) {
-      // change `i` value to `j` value
-      i++;
-      arr[i] = arr[j];
-    }
-  }
-  return i + 1;
-  /*
-                 i  
-    [1, 2, 3, 4, 4, 4, 7, 7, 12, 12, 13]
-                       j
-  */
+  // do something...
 }
 
 console.log(countUniqueValues([1, 1, 1, 1, 1, 2])); // 2
@@ -163,7 +80,29 @@ console.log(countUniqueValues([-2, -1, -1, 0, 1])); // 4
 */
 
 function maxSubarraySum(arr, num) {
-  // do something...
+  // sliding window
+  // what if the arr.length is less than the num input? return null
+  if (arr.length < num) return null;
+  // create var to hold max sum value `maxSum`
+  let maxSum = 0;
+  // create var to hold current sum value `tempSum`
+  let tempSum = 0;
+  // create start of 'sliding window' loop through arr based on the input number
+  for (let i = 0; i < num; i++) {
+    // add elements of looped items to var `maxSum`
+    maxSum += arr[i];
+  }
+  // have var `tempSum` = `maxSum` as starting value
+  tempSum = maxSum;
+  // loop through arr starting at input number index
+  for (let i = num; i < arr.length; i++) {
+    // subtract last starting item from `tempSum` and add current iteration item  to `tempSum`
+    tempSum = tempSum - arr[i - num] + arr[i];
+    // compare `tempSum` and `maxSum` values and have maxSum take on the higher value
+    maxSum = Math.max(maxSum, tempSum);
+  }
+  // return `maxSum`
+  return maxSum;
 }
 
 console.log(maxSubarraySum([1, 2, 5, 2, 8, 1, 5], 2)); // 10
@@ -171,3 +110,4 @@ console.log(maxSubarraySum([1, 2, 5, 2, 8, 1, 5], 4)); // 17
 console.log(maxSubarraySum([4, 2, 1, 6], 1)); // 6
 console.log(maxSubarraySum([4, 2, 1, 6, 2], 4)); // 13
 console.log(maxSubarraySum([], 4)); // null
+console.log(maxSubarraySum([2, 6, 9, 2, 1, 8, 5, 6, 3], 3)); // 19
