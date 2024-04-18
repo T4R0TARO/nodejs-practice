@@ -196,6 +196,10 @@ console.log(maxSubarraySum([], 4)); // null
 console.log(maxSubarraySum([2, 6, 9, 2, 1, 8, 5, 6, 3], 3)); // 19
 console.clear();
 
+/*
+  create a function called `containsDuplicate` that accepts an array of numbers, the function should return false if the numbers is the array are all unique and return true if there are multiples of the same number.
+*/
+
 // Time O(n)
 // Space O(n)
 // var containsDuplicate = function (nums) {
@@ -218,10 +222,27 @@ console.clear();
 
 // Time O(n)
 // Space O(n)
-function containsDuplicate(nums) {
-  const newSet = new Set(nums);
-  return newSet.size !== nums.length;
+// function containsDuplicate(nums) {
+//   const newSet = new Set(nums);
+//   return newSet.size !== nums.length;
+// }
+
+function containsDuplicate(arr) {
+  // create index obj `indexObj`
+  let indexObj = {};
+  // populate `indexObj` w/ arr
+  for (let num of arr) {
+    indexObj[num] ? (indexObj[num] += 1) : (indexObj[num] = 1);
+  }
+  // loop through key of `indexObj`
+  for (let key in indexObj) {
+    // if `indexObj` values are > 1 return true;
+    if (indexObj[key] > 1) return true;
+  }
+  return false;
 }
+
 console.log(containsDuplicate([1, 2, 3, 1])); // true
 console.log(containsDuplicate([1, 2, 3, 4])); // false
 console.log(containsDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2])); // true
+console.clear();
