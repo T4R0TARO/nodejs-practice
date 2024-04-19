@@ -246,3 +246,148 @@ console.log(containsDuplicate([1, 2, 3, 1])); // true
 console.log(containsDuplicate([1, 2, 3, 4])); // false
 console.log(containsDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2])); // true
 console.clear();
+
+/*
+ Write a function called sameFrequency. Given two positive integers, find out if the two numbers have the same frequency of digits.
+
+Your solution MUST have the following complexities:
+
+Time: O(N)
+    sameFrequency(182,281) // true
+    sameFrequency(34,14) // false
+    sameFrequency(3589578, 5879385) // true
+    sameFrequency(22,222) // false
+*/
+// METHOD 1
+// function sameFrequency(num1, num2) {
+//   // should i assume that the inputs are always integers? yes
+//   // should i assume that the inputs are always positive? yes
+//   // should i assume that the inputs are always whole numbers? yes
+//   // Frequency Counter Pattern:
+//   // Input: num
+//   // Output: Boolean
+
+//   // change `num1` and `num2` to strings
+//   const reformatStr1 = num1.toString();
+//   // split strings in to an arr of characters
+//   const reformatStr2 = num2.toString();
+//   // ! You do NOT need to split() the string in order to loop through the characters
+//   // do i need to change them back to numbers? not really
+//   // if the length of `num1` and `num2` are not equal? return false;
+//   if (reformatStr1.length !== reformatStr2.length) return false;
+
+//   // create obj `frequencyCounter1`
+//   let frequencyCounter1 = {};
+//   // create obj `frequencyCounter2`
+//   let frequencyCounter2 = {};
+//   // populate `frequencyCounter1` w/ `num1`
+//   for (let char of reformatStr1) {
+//     frequencyCounter1[char]
+//       ? (frequencyCounter1[char] += 1)
+//       : (frequencyCounter1[char] = 1);
+//   }
+//   // populate `frequencyCounter2` w/ `num2`
+//   for (let char of reformatStr2) {
+//     frequencyCounter2[char]
+//       ? (frequencyCounter2[char] += 1)
+//       : (frequencyCounter2[char] = 1);
+//   }
+//   // loop through `frequencyCounter1` keys
+//   for (let key in frequencyCounter1) {
+//     // if key is NOT in `frequencyCounter2? return false
+//     if (!key in frequencyCounter2) return false;
+//     // if `frequencyCounter2[key]` values are NOT equal to `frequencyCounter1[key]` values? return false
+//     if (frequencyCounter2[key] !== frequencyCounter1[key]) return false;
+//   }
+//   return true;
+// }
+
+// METHOD 2
+function sameFrequency(num1, num2) {
+  // Convert numbers to strings
+  const strNum1 = num1.toString();
+  const strNum2 = num2.toString();
+  // Check if lengths are equal
+  if (strNum1.length !== strNum2.length) return false;
+  // Create frequency Counter
+  const frequcnecyCounter = {};
+  // Populate frequency counter with digits from num1
+  for (let digit of strNum1) {
+    frequcnecyCounter[digit]
+      ? (frequcnecyCounter[digit] += 1)
+      : (frequcnecyCounter[digit] = 1);
+  }
+  // Compare frequency counter with digits from num2
+  for (let digit of strNum2) {
+    // if digit not found is num1, return false
+    if (!frequcnecyCounter[digit]) return false;
+    // if digit is in num1, incremently decrease the value
+    frequcnecyCounter[digit]--;
+    if (frequcnecyCounter[digit] < 0) return false;
+  }
+  // if all digits match, return true
+  return true;
+}
+
+console.log(sameFrequency(182, 281)); // true
+console.log(sameFrequency(34, 14)); // false
+console.log(sameFrequency(3589578, 5879385)); // true
+console.log(sameFrequency(22, 222)); // false
+console.clear();
+/*
+ Create a function `twoSum`. Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+Example 1:
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+
+Example 2:
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+
+Example 3:
+Input: nums = [3,3], target = 6
+Output: [0,1]
+
+*/
+
+// METHOD 1
+// TIME O(n^2)
+// SPACE O(1)
+// function twoSum(nums, target) {
+//   for (let i = 0; i < nums.length; i++) {
+//     for (let j = 1; j < nums.length; j++) {
+//       if (nums[i] + nums[j] === target) {
+//         return [i, j];
+//       }
+//     }
+//   }
+// }
+
+// METHOD 2
+// Map: is an object that holds key value pairs and remembers the original insertion order of keys
+// has(): returns a boolean if the "key" is in the Map object
+// get(): returns the key of the  Map obj
+function twoSum(nums, target) {
+  const numMap = new Map(); // Use a hashmap to store the complements
+
+  for (let i = 0; i < nums.length; i++) {
+    const complements = target - nums[i];
+    // If Map obj has the sum compliments? return pair
+    if (numMap.has(complements)) {
+      return [numMap.get(complements), i];
+    }
+    // populate Map obj w/ arr `nums` element and index "key/values"
+    numMap.set(nums[i], i);
+  }
+  return null; // If no solution found
+}
+console.log(twoSum([2, 7, 11, 15], 9)); // [0,1]
+console.log(twoSum([2, 11, 7, 15], 9)); // [0,2]
+console.log(twoSum([3, 2, 4], 6)); // [1,2]
+console.log(twoSum([3, 3], 6)); // [0,1]
