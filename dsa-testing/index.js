@@ -494,3 +494,87 @@ function search(arr, val) {
                  i ->                
     [1,2,3,5,6,7,8,9,10,12,16,17,,20, 22] , 12
 */
+
+/*
+ Create a function `twoSum`. Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+*/
+
+// METHOD 1
+// TIME O(n^2)
+// SPACE O(1)
+// function twoSum(nums, target) {
+//   for (let i = 0; i < nums.length; i++) {
+//     for (let j = 1; j < nums.length; j++) {
+//       if (nums[i] + nums[j] === target) {
+//         return [i, j];
+//       }
+//     }
+//   }
+// }
+
+// METHOD 2
+// Map: is an object that holds key value pairs and remembers the original insertion order of keys
+// has(): returns a boolean if the "key" is in the Map object
+// get(): returns the key of the  Map obj
+function twoSum(nums, target) {
+  const numMap = new Map(); // Use a hashmap to store the complements
+
+  for (let i = 0; i < nums.length; i++) {
+    const complements = target - nums[i];
+    // If Map obj has the sum compliments? return pair
+    if (numMap.has(complements)) {
+      return [numMap.get(complements), i];
+    }
+    // populate Map obj w/ arr `nums` element and index "key/values"
+    numMap.set(nums[i], i);
+  }
+  return null; // If no solution found
+}
+console.log(twoSum([2, 7, 11, 15], 9)); // [0,1]
+console.log(twoSum([2, 11, 7, 15], 9)); // [0,2]
+console.log(twoSum([3, 2, 4], 6)); // [1,2]
+console.log(twoSum([3, 3], 6)); // [0,1]
+
+/*
+ Write a function called sameFrequency. Given two positive integers, find out if the two numbers have the same frequency of digits.
+Your solution MUST have the following complexities:
+Time: O(N)
+*/
+
+// METHOD 2
+function sameFrequency(num1, num2) {
+  // Convert numbers to strings
+  const strNum1 = num1.toString();
+  const strNum2 = num2.toString();
+  // Check if lengths are equal
+  if (strNum1.length !== strNum2.length) return false;
+  // Create frequency Counter
+  const frequcnecyCounter = {};
+  // Populate frequency counter with digits from num1
+  for (let digit of strNum1) {
+    frequcnecyCounter[digit]
+      ? (frequcnecyCounter[digit] += 1)
+      : (frequcnecyCounter[digit] = 1);
+  }
+  // Compare frequency counter with digits from num2
+  for (let digit of strNum2) {
+    // if digit not found is num1, return false
+    if (!frequcnecyCounter[digit]) return false;
+    // if digit is in num1, incremently decrease the value
+    frequcnecyCounter[digit]--;
+    if (frequcnecyCounter[digit] < 0) return false;
+  }
+  // if all digits match, return true
+  return true;
+}
+
+console.log(sameFrequency(182, 281)); // true
+console.log(sameFrequency(34, 14)); // false
+console.log(sameFrequency(3589578, 5879385)); // true
+console.log(sameFrequency(22, 222)); // false
+console.clear();
