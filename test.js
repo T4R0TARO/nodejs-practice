@@ -145,18 +145,7 @@ Output: [0,1]
 // has(): returns a boolean if the "key" is in the Map object
 // get(): returns the key of the  Map obj
 function twoSum(nums, target) {
-  const numMap = new Map(); // Use a hashmap to store the complements
-
-  for (let i = 0; i < nums.length; i++) {
-    const complements = target - nums[i];
-    // If Map obj has the sum compliments? return pair
-    if (numMap.has(complements)) {
-      return [numMap.get(complements), i];
-    }
-    // populate Map obj w/ arr `nums` element and index "key/values"
-    numMap.set(nums[i], i);
-  }
-  return null; // If no solution found
+  // do something...
 }
 console.log(twoSum([2, 7, 11, 15], 9)); // [0,1]
 console.log(twoSum([2, 11, 7, 15], 9)); // [0,2]
@@ -171,43 +160,7 @@ console.log(twoSum([3, 3], 6)); // [0,1]
 */
 
 function averagePair(arr, target) {
-  // can i assume there will only be one match? no, the arr can have multiple pair values that equal target
-  // if arr.length equal 0 return false
-  if (arr.length === 0) return false;
-  // can i assume that all numbers are positive? no, the function can accepts negatives and decimals
-  // create pointerA `start`
-  let start = 0;
-  // create pointerB `end`
-  let end = arr.length - 1;
-  // loop through `arr`
-  while (start < end) {
-    // create var `average`= (start + end) / 2
-    const average = arr[start] + arr[end] / 2;
-    // if `average` === `target` return true
-    if (average === target) {
-      return true;
-    }
-
-    // if `average` is less than `target`
-    if (average < target) {
-      // move pointer `start` i++
-      start++;
-      // else
-    } else {
-      // move pointer `end` j--
-      end--;
-    }
-  }
-  return false;
-  /*
-     i
-    [1,2,3], 2.5
-         j
-      
-    average = 1 + 3 = 4 / 2 = 2 
-    if average > target pointer j--
-    else i++
-  */
+  // do something...
 }
 
 console.log(averagePair([1, 2, 3], 2.5)); // true
@@ -220,35 +173,27 @@ console.clear();
 */
 
 function isSubsequence(str1, str2) {
-  // do something
-  // if str1.length > str2.length return false
+  // do something...
+  // if str1.length > str2.length return false'
   if (str1.length > str2.length) return false;
-  // if str1.length === 0 return false
-  if (str1.length === 0) return false;
-  // create pointerA `i`
+  // set pointer1 `i`
   let i = 0;
-  // create pointerB `j`
-  let j = 0;
-  // loop through `str2`;  while j < str2.length
-  while (j < str2.length) {
-    // move pointer `i` if pointer `j` equal pointer `i`
+  // set pointer2 `j`
+  // loop through str2
+  // j++
+  for (let j = 0; j < str2.length; j++) {
+    // if str1[i] === str2[j]
     if (str1[i] === str2[j]) {
+      // i++
       i++;
     }
-    // if all chars in str1 have been found return true
     if (i === str1.length) {
       return true;
     }
-    // incremently increase counter `j`
-    j++;
+    // if i === str1.length
+    // return true
   }
-  // if not all chars in str1 are found and the loop ends return false
   return false;
-  /*
-     i
-    [a,b,r,a,c,d,a,b,r,a]
-     j
-  */
 }
 
 console.log(isSubsequence("hello", "hello world")); // true
