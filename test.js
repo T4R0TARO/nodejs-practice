@@ -174,26 +174,6 @@ console.clear();
 
 function isSubsequence(str1, str2) {
   // do something...
-  // if str1.length > str2.length return false'
-  if (str1.length > str2.length) return false;
-  // set pointer1 `i`
-  let i = 0;
-  // set pointer2 `j`
-  // loop through str2
-  // j++
-  for (let j = 0; j < str2.length; j++) {
-    // if str1[i] === str2[j]
-    if (str1[i] === str2[j]) {
-      // i++
-      i++;
-    }
-    if (i === str1.length) {
-      return true;
-    }
-    // if i === str1.length
-    // return true
-  }
-  return false;
 }
 
 console.log(isSubsequence("hello", "hello world")); // true

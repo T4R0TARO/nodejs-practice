@@ -729,3 +729,48 @@ console.log(isSubsequence("hello", "hello world")); // true
 console.log(isSubsequence("sing", "sting")); // true
 console.log(isSubsequence("abc", "abracdabra")); // true
 console.log(isSubsequence("abc", "acb")); // false (order matters)
+console.clear();
+
+/*
+  Given an array of integers and a number, write a function called `maxSubarraySum`, which finds the maximum sum of a subarray with the length of the number passed to the function. 
+  
+  NOTE: a subarray must consist of consecutive elements from the original array.
+
+  Constraints:
+
+  Time Complexity - O(N)
+  Space Complexity - O(1) 
+*/
+
+function maxSubarraySum(arr, num) {
+  // do something...
+  // if arr.length is < num ? return false
+  if (num > arr.length) return null;
+  // create var `maxSum`
+  let maxSum = 0;
+  // create var `tempSum`
+  let tempSum = 0;
+  // create window + loop through window based on `num`
+  for (let i = 0; i < num; i++) {
+    maxSum += arr[i];
+  }
+
+  // have tempSum take on values of current maxSum
+  tempSum = maxSum;
+
+  // loop through arr.length and slide window
+  for (let j = num; j < arr.length; j++) {
+    // have `tempSum` take on values of current window ?
+    // remove the oldest item and add the newest item
+    tempSum = tempSum - arr[j - num] + arr[j];
+    // compare `tempSum` and `maxSum`
+    maxSum = Math.max(maxSum, tempSum);
+  }
+  return maxSum;
+}
+
+console.log(maxSubarraySum([100, 200, 300, 400], 2)); // 700
+console.log(maxSubarraySum([1, 4, 2, 10, 23, 3, 1, 0, 20], 4)); // 39
+console.log(maxSubarraySum([-3, 4, 0, -2, 6, -1], 2)); // 5
+console.log(maxSubarraySum([3, -2, 7, -4, 1, -1, 4, -2, 1], 2)); // 5
+console.log(maxSubarraySum([2, 3], 3)); // null
