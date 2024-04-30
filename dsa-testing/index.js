@@ -787,6 +787,9 @@ console.clear();
 /*
   We are looking through `arr` and checking if there is contigous sub array whos sum is greater than or equal to `sum` of minimul length
   Sliding Window...
+
+  if total is less sum ? move `end` of sliding window by one
+  if total is more or equal to sum? move `start` of sliding window by one
 */
 function minSubArrayLen(arr, sum) {
   // create var `total` to check the sum of the subArray
