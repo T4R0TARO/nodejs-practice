@@ -3,7 +3,31 @@
 */
 // Frequency Counter
 function same(arr1, arr2) {
-  // do something...
+  // if arr1.length and arr2.length are not equal return false;
+  if (arr1.length !== arr2.length) return false;
+  // create obj1 and obj2 for comparison
+  let frequcnecyCounter1 = {};
+  let frequencyCounter2 = {};
+  // populate obj1 w/ arr1 `for...of`
+  for (let val of arr1) {
+    frequcnecyCounter1[val]
+      ? (frequcnecyCounter1[val] += 1)
+      : (frequcnecyCounter1[val] = 1);
+  }
+  // populate obj2 w/ arr2 `for...of`
+  for (let val of arr2) {
+    frequencyCounter2[val]
+      ? (frequencyCounter2[val] += 1)
+      : (frequencyCounter2[val] = 1);
+  }
+  // loop through the keys in obj1 `for...in`
+  for (let key in frequcnecyCounter1) {
+    // if the keys **2 in obj1 are NOT in obj2 return false
+    if (!(key ** 2 in frequencyCounter2)) return false;
+    // if the values **2 in obj2 are not equal to obj1 values return false
+    if (frequencyCounter2[key ** 2] !== frequcnecyCounter1[key]) return false;
+  }
+  // return true/
 }
 
 console.log(same([1, 2, 3], [1, 4])); // false
@@ -17,7 +41,30 @@ console.clear();
 */
 
 function validAnagram(str1, str2) {
-  // do something...
+  // should i consider types? assume inputs are always string
+  if (typeof str1 || typeof str2 !== "string") return false;
+  // if input length are NOT equal return false
+  if (str1.length !== str2.length) return false;
+  // create loopup obj
+  const lookup = {};
+  // loop through str1
+  for (let i = 0; i < str1.length; i++) {
+    // populate lookup obj w/ str1 elements
+    let char = str1[i];
+    lookup[char] ? (lookup[char] += 1) : (lookup[char] = 1);
+  }
+  // loop through str2
+  for (let i = 0; i < str2.length; i++) {
+    let char = str2[i];
+    // if elements of str2 are NOT in lookup obj return false
+    if (!lookup[char]) {
+      return false;
+    } else {
+      // else element is in str2 ARE in lookup obj -1
+      lookup[char] -= 1;
+    }
+  }
+  return true;
 }
 
 console.log(validAnagram("", "")); // true
@@ -34,7 +81,13 @@ console.clear();
     Create a function that accepts a sorted array of integers. The function should return the first two integer pairs whos sum equals 0
 */
 function sumZero(arr) {
-  // do something...
+  // init left pointer
+  // init right pointer
+  // loop arr while left < right
+  // init sum = arr[left] + arr[right]
+  // if sum === 0 return arr pair
+  // else if sum is greater than 0 move pointer right
+  // else if pointer left
 }
 
 console.log("sumZero");
