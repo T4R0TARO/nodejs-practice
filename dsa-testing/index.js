@@ -102,7 +102,7 @@ console.clear();
 // METHOD 3
 function validAnagram(str1, str2) {
   // should i consider types? assume inputs are always string
-  if (typeof str1 || typeof str2 !== "string") return false;
+  if (typeof str1 && typeof str2 !== "string") return false;
   // should i consider special characters? assume the input are alpha char
   // should i consider spaces? assume the strings contain no spaces
   // should i consider upppercase character? assume input are always lowercase
@@ -836,3 +836,11 @@ console.log(minSubArrayLen([1, 4, 16, 22, 5, 7, 8, 9, 10], 39)); // 3
 console.log(minSubArrayLen([1, 4, 16, 22, 5, 7, 8, 9, 10], 55)); // 5
 console.log(minSubArrayLen([4, 3, 3, 8, 1, 2, 3], 11)); // 2
 console.log(minSubArrayLen([1, 4, 16, 22, 5, 7, 8, 9, 10], 95)); // 0
+
+/*
+  Create a function called `findLongestSubstring()`, which accepts a string and returns a number...
+*/
+
+function findLongestSubstring(str) {
+  // do something...
+}
