@@ -3,70 +3,68 @@
 */
 // Frequency Counter
 function same(arr1, arr2) {
-  // if arr1.length and arr2.length are not equal return false;
+  // if arr1.length !== arr2.length return false
   if (arr1.length !== arr2.length) return false;
-  // create obj1 and obj2 for comparison
-  let frequcnecyCounter1 = {};
+  // create obj1
+  let frequencyCounter1 = {};
+  // create obj2
   let frequencyCounter2 = {};
-  // populate obj1 w/ arr1 `for...of`
-  for (let val of arr1) {
-    frequcnecyCounter1[val]
-      ? (frequcnecyCounter1[val] += 1)
-      : (frequcnecyCounter1[val] = 1);
+  // populate obj1 w/ arr1
+  for (val of arr1) {
+    frequencyCounter1[val]
+      ? (frequencyCounter1[val] += 1)
+      : (frequencyCounter1[val] = 1);
   }
-  // populate obj2 w/ arr2 `for...of`
-  for (let val of arr2) {
+  // populate obj2 w/ arr2
+  for (val of arr2) {
     frequencyCounter2[val]
       ? (frequencyCounter2[val] += 1)
       : (frequencyCounter2[val] = 1);
   }
-  // loop through the keys in obj1 `for...in`
-  for (let key in frequcnecyCounter1) {
-    // if the keys **2 in obj1 are NOT in obj2 return false
+  // loop through obj1 keys
+  for (let key in frequencyCounter1) {
+    // if obj1 keys are NOT in obj2 keys **2 return false
     if (!(key ** 2 in frequencyCounter2)) return false;
-    // if the values **2 in obj2 are not equal to obj1 values return false
-    if (frequencyCounter2[key ** 2] !== frequcnecyCounter1[key]) return false;
+    // if obj2 values are NOT equal to obj1 values return false
+    if (frequencyCounter2[key ** 2] !== frequencyCounter1[key]) return false;
   }
-  // return true/
+  return true;
 }
-
+console.log("start...");
 console.log(same([1, 2, 3], [1, 4])); // false
 console.log(same([1, 2, 3], [1, 4, 4])); // false
 console.log(same([1, 2, 3], [1, 4, 9])); // true
 console.log(same([1, 4, 2, 3, 3], [1, 4, 9, 16, 9])); // true
-console.clear();
 
 /*
   Create a function called `validAnagram` that accepts two strings. Check if those those strings are anagrams of each other and return a boolean.
 */
 
 function validAnagram(str1, str2) {
-  // should i consider types? assume inputs are always string
-  if (typeof str1 || typeof str2 !== "string") return false;
-  // if input length are NOT equal return false
+  // should i consider types? yes
+  if (typeof str1 && typeof str2 !== "string") return false;
+  // if input lengths are NOT equal return false
   if (str1.length !== str2.length) return false;
-  // create loopup obj
+  //create lookup obj
   const lookup = {};
-  // loop through str1
+  // loop through str1 and populate lookup w/ str1
   for (let i = 0; i < str1.length; i++) {
-    // populate lookup obj w/ str1 elements
     let char = str1[i];
     lookup[char] ? (lookup[char] += 1) : (lookup[char] = 1);
   }
   // loop through str2
   for (let i = 0; i < str2.length; i++) {
     let char = str2[i];
-    // if elements of str2 are NOT in lookup obj return false
     if (!lookup[char]) {
       return false;
     } else {
-      // else element is in str2 ARE in lookup obj -1
       lookup[char] -= 1;
     }
   }
   return true;
 }
 
+console.log("validAnagram()");
 console.log(validAnagram("", "")); // true
 console.log(validAnagram("qwerty", 100)); // false
 console.log(validAnagram("aaz", "zza")); // false
@@ -75,31 +73,28 @@ console.log(validAnagram("rat", "car")); // false
 console.log(validAnagram("awesome", "awesom")); //false
 console.log(validAnagram("qwerty", "qeywrt")); //true
 console.log(validAnagram("testtwisttime", "timetwisttest")); // true
-console.clear();
 
 /*
     Create a function that accepts a sorted array of integers. The function should return the first two integer pairs whos sum equals 0
 */
 function sumZero(arr) {
-  // init left pointer
-  // init right pointer
-  // loop arr while left < right
-  // init sum = arr[left] + arr[right]
-  // if sum === 0 return arr pair
-  // else if sum is greater than 0 move pointer right
-  // else if pointer left
+  // do something...
 }
 
-console.log("sumZero");
 console.log(sumZero([-4, -2, -1, 0, 2, 5, 9])); // [-2, 2]
 console.log(sumZero([-4, -3, -1, 0, 1, 2, 5, 9])); // [-1, 1]
-
-console.clear();
 
 //  Implement a function called `countUniqueValues`, which accepts a sorted array, and counts the unique values in the array. There can be negative numbers in the array, BUT it will always be sorted.
 
 function countUniqueValues(arr) {
-  // do something...
+  // if arr is empty return 0
+  // set pointer1 `i`
+  // set pointer2 `j`
+  // loop through arr
+  // if pointer1 is NOT equal to pointer2...
+  // move pointer1
+  // change pointer1 to equal pointer2...
+  // return pointer1 + 1 value because arr index starts at 0
 }
 /* 
    i
@@ -116,7 +111,6 @@ console.log(countUniqueValues([1, 1, 1, 1, 1, 2])); // 2
 console.log(countUniqueValues([1, 2, 3, 4, 4, 4, 7, 7, 12, 12, 13])); // 7
 console.log(countUniqueValues([])); // 0
 console.log(countUniqueValues([-2, -1, -1, 0, 1])); // 4
-console.clear();
 
 /*
   Write a function called `maxSubarraySum` which accepts an array of integers and a number called `n`. The function should calculate the maximum sum of `n` consecutuve elements in the array.  
@@ -132,7 +126,6 @@ console.log(maxSubarraySum([4, 2, 1, 6], 1)); // 6
 console.log(maxSubarraySum([4, 2, 1, 6, 2], 4)); // 13
 console.log(maxSubarraySum([], 4)); // null
 console.log(maxSubarraySum([2, 6, 9, 2, 1, 8, 5, 6, 3], 3)); // 19
-console.clear();
 
 /*
   create a function called `containsDuplicate` that accepts an array of numbers, the function should return false if the numbers is the array are all unique and return true if there are multiples of the same number.
@@ -148,7 +141,6 @@ function containsDuplicate(arr) {
 console.log(containsDuplicate([1, 2, 3, 1])); // true
 console.log(containsDuplicate([1, 2, 3, 4])); // false
 console.log(containsDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2])); // true
-console.clear();
 
 /*
  Write a function called sameFrequency. Given two positive integers, find out if the two numbers have the same frequency of digits.
@@ -170,7 +162,7 @@ console.log(sameFrequency(182, 281)); // true
 console.log(sameFrequency(34, 14)); // false
 console.log(sameFrequency(3589578, 5879385)); // true
 console.log(sameFrequency(22, 222)); // false
-console.clear();
+
 /*
  Create a function `twoSum`. Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
 
@@ -220,7 +212,7 @@ console.log(averagePair([1, 2, 3], 2.5)); // true
 console.log(averagePair([1, 3, 3, 5, 6, 7, 10, 12, 19], 8)); // true
 console.log(averagePair([-1, 0, 3, 4, 5, 6], 4.1)); // false
 console.log(averagePair([], 4)); // false
-console.clear();
+
 /*
   Write a function called `isSubsequence` which takes in two strings and checks whether the characters in the first string form a subsequency of the characters in the second string. In other words, the function should check wheter the characters in the first string appear somewhere in the second string, without their order changing.
 */
