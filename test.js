@@ -78,7 +78,25 @@ console.log(validAnagram("testtwisttime", "timetwisttest")); // true
     Create a function that accepts a sorted array of integers. The function should return the first two integer pairs whos sum equals 0
 */
 function sumZero(arr) {
-  // do something...
+  // init left pointer
+  let left = 0;
+  // init right pointer
+  let right = arr.length - 1;
+  //loop arr while left < right
+  while (left < right) {
+    // init sum = left + right === 0
+    let sum = arr[left] + arr[right];
+    // if sum === 0 return arr pair
+    if (sum === 0) {
+      return [arr[left], arr[right]];
+    } else if (sum > 0) {
+      // else is sum is greater than 0 move pointer right
+      right--;
+    } else {
+      // else if move pointer left
+      left++;
+    }
+  }
 }
 
 console.log(sumZero([-4, -2, -1, 0, 2, 5, 9])); // [-2, 2]
