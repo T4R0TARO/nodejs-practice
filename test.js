@@ -106,13 +106,22 @@ console.log(sumZero([-4, -3, -1, 0, 1, 2, 5, 9])); // [-1, 1]
 
 function countUniqueValues(arr) {
   // if arr is empty return 0
+  if (arr.length === 0) return 0;
   // set pointer1 `i`
+  let i = 0;
   // set pointer2 `j`
   // loop through arr
-  // if pointer1 is NOT equal to pointer2...
-  // move pointer1
-  // change pointer1 to equal pointer2...
+  for (let j = 1; j < arr.length; j++) {
+    // if pointer1 is NOT equal to pointer2...
+    if (arr[i] !== arr[j]) {
+      // move pointer1
+      i++;
+      // change pointer1 to equal pointer2...
+      arr[i] = arr[j];
+    }
+  }
   // return pointer1 + 1 value because arr index starts at 0
+  return i + 1;
 }
 /* 
    i
