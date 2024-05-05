@@ -144,7 +144,27 @@ console.log(countUniqueValues([-2, -1, -1, 0, 1])); // 4
 */
 
 function maxSubarraySum(arr, num) {
-  // do something...
+  // if arr.length is < num ? return false
+  if (num > arr.length) return null;
+  // create var `maxSum`
+  let maxSum = 0;
+  // create var `tempSum`
+  let tempSum = 0;
+  // create window + loop through window based on `num`
+  for (let i = 0; i < num; i++) {
+    maxSum += arr[i];
+  }
+  // create tempSum take on values of current maxSum
+  tempSum = maxSum;
+  // loop through arr.length and slide window
+  for (let j = num; j < arr.length; j++) {
+    // have `tempSum` take on values of current window ?
+    // remove the oldest item and add the newest item
+    tempSum = tempSum - arr[j - num] + arr[j];
+    // compare `tempSum` and `maxSum`
+    maxSum = Math.max(maxSum, tempSum);
+  }
+  return maxSum;
 }
 
 console.log(maxSubarraySum([1, 2, 5, 2, 8, 1, 5], 2)); // 10
