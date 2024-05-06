@@ -202,7 +202,29 @@ Time: O(N)
 */
 
 function sameFrequency(num1, num2) {
-  // do something...
+  // covert numbers to strings
+  const strNum1 = num1.toString();
+  const strNum2 = num2.toString();
+  // check iff lengths are equal
+  if (strNum1.length !== strNum2.length) return false;
+  // create frequency Counter
+  const frequencyCounter = {};
+  // Populate frequency counter with digits from num1
+  for (let digit of strNum1) {
+    frequencyCounter[digit]
+      ? (frequencyCounter[digit] += 1)
+      : (frequencyCounter[digit] = 1);
+  }
+  // Compare frequency counter with digits from num2
+  for (let digit of strNum2) {
+    // if digit not found is num1, return false
+    if (!frequencyCounter[digit]) return false;
+    // if digit is in num1, incremently decrease the value
+    frequencyCounter[digit]--;
+    if (frequencyCounter[digit] < 0) return false;
+  }
+  // if all digits match, return true
+  return true;
 }
 
 console.log(sameFrequency(182, 281)); // true
