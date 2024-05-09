@@ -259,7 +259,18 @@ Output: [0,1]
 // has(): returns a boolean if the "key" is in the Map object
 // get(): returns the key of the  Map obj
 function twoSum(nums, target) {
-  // do something...
+  // Use a hashmap to store the complements
+  const numMap = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const complements = target - nums[i];
+    // If Map obj has the sum compliments? return pair
+    if (numMap.has(complements)) {
+      return [numMap.get(complements), i];
+    }
+    // populate Map obj w/ arr 'nums' elements and index 'key/values'
+    numMap.set(nums[i], i);
+  }
+  return null; // If no solution found
 }
 console.log(twoSum([2, 7, 11, 15], 9)); // [0,1]
 console.log(twoSum([2, 11, 7, 15], 9)); // [0,2]
