@@ -285,7 +285,21 @@ console.log(twoSum([3, 3], 6)); // [0,1]
 */
 
 function averagePair(arr, target) {
-  // do something...
+  if (arr.length === 0) return false;
+  let start = 0;
+  let end = arr.length - 1;
+  while (start < end) {
+    const average = arr[start] + arr[end] / 2;
+    if (average === target) {
+      return true;
+    }
+    if (average < target) {
+      start++;
+    } else {
+      end--;
+    }
+  }
+  return false;
 }
 
 console.log(averagePair([1, 2, 3], 2.5)); // true
